@@ -1,0 +1,74 @@
+/* studentCreation.css */
+
+/* Container for the form */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+/* Form container */
+#studentForm {
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Form group */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* Label styles */
+label {
+    display: block;
+    font-weight: bold;
+    color: #666;
+}
+
+/* Input styles */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Radio button styles */
+input[type="radio"] {
+    margin-right: 5px;
+}
+
+/* Button styles */
+button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+/* Error message */
+.error-message {
+    color: red;
+    font-size: 14px;
+}

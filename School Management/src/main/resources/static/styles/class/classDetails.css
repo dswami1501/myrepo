@@ -1,0 +1,78 @@
+/* classDetails.css */
+
+/* Container styles */
+#classroomDetails {
+    margin: 20px;
+}
+
+/* Classroom details styles */
+.classroom {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Classroom ID styles */
+.classroomId {
+    font-weight: bold;
+    color: #333333;
+}
+
+/* Section styles */
+.section {
+    margin-top: 10px;
+    color: #666666;
+}
+
+/* Grade styles */
+.grade {
+    margin-top: 10px;
+    color: #666666;
+}
+
+/* Grade styles */
+.students {
+    margin-top: 10px;
+    color: #666666;
+}
+
+/* Teacher styles */
+.teacher {
+    margin-top: 10px;
+    color: #666666;
+}
+
+/* Timetable styles */
+.timetable {
+    margin-top: 10px;
+    color: #666666;
+}
+
+/* Search input styles */
+#searchInput {
+    margin: 20px;
+    padding: 12px 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333333;
+}
+
+/* Search button styles */
+button {
+    padding: 12px 24px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: #45a049;
+}

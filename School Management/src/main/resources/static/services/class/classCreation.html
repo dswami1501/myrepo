@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Classroom</title>
+    <link rel="stylesheet" href="../../styles/class/classCreation.css">
+</head>
+<body>
+<div class="create-classroom-form">
+    <h1>Create Classroom</h1>
+    <form id="createClassroomForm">
+        <label for="grade">Grade:</label>
+        <input type="number" id="grade" name="grade" required><br>
+        <label for="section">Section:</label>
+        <input type="text" id="section" name="section" required><br>
+        <!-- Add more input fields for other properties if needed -->
+        <label for="students">Student IDs:</label>
+        <input type="number" id="student1" name="students" multiple><br>
+        <label for="teacherId">Teacher ID:</label>
+        <input type="number" id="teacherId" name="teacherId"><br>
+        <label for="ttId">Timetable ID:</label>
+        <input type="number" id="ttId" name="ttId"><br>
+        <button type="submit">Create Classroom</button>
+    </form>
+</div>
+<script src="../../js/class/classCreation.js"></script>
+</body>
+</html>
