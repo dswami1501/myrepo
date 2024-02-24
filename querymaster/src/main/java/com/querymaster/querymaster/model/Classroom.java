@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.util.List;
 
 @Entity
-/*@JsonIdentityInfo(generator= ObjectIdGenerators.IntSequenceGenerator.class, property="@classroomId")*///working
 public class Classroom {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)

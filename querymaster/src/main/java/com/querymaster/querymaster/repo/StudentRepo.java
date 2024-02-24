@@ -21,19 +21,6 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     int insertUsingJpql(@Param("name") String name, @Param("classroomId") int classroomId);
 
 
-
-    public default int test(String name, int id){
-        return insertUsingJpql(name, id);
-    }
-
-    @Query("INSERT INTO Student(name) VALUES (:name)")
-    @Modifying
-    int insertStudentWithoutClassroom(@Param("name") String name);
-
-    @Query("SELECT c FROM Classroom c WHERE c.classroomId = :classroomId")
-    Classroom findClassroomById(@Param("classroomId") int classroomId);
-
-
     @Query("SELECT s FROM Student s JOIN s.classroom c WHERE c.classroomId = :classroomId")
     Optional<List<Student>> findStudentsByClassroomId(@Param("classroomId") int classroomId);
 }

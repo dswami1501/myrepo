@@ -19,9 +19,6 @@ import java.util.Optional;
 public class StudentService {
     Logger logger = LoggerFactory.getLogger(StudentService.class);
 
-    @PersistenceContext
-    private EntityManager entityManager;
-
     private StudentRepo studentRepo;
     @Autowired
     private ClassroomRepo classroomRepo;
@@ -57,7 +54,6 @@ public class StudentService {
     }
 
     //Todo: Service methods using Jpql: start
-    /*@Transactional*/
     public String insertUsingJpql(Student newStud){
         int i = studentRepo.insertUsingJpql(newStud.getName(), newStud.getClassroom().getClassroomId());
         return "new Student is: "+i;

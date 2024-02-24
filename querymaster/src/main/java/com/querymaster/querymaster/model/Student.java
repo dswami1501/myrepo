@@ -13,7 +13,6 @@ public class Student {
 
     @JsonIgnore
     @ManyToOne
-    /*@ManyToOne(cascade = CascadeType.ALL)*/
     @JoinColumn(name = "classroomId")
     private Classroom classroom;
 
