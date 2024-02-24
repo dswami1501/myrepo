@@ -45,6 +45,11 @@ public class StudentController {
         return studentService.updateStudClassUsingJpql(grade, studId);
     }
 
+    @DeleteMapping("deletestud/{studId}")
+    public String deleteStudWithJpql(@PathVariable int studId){
+        return studentService.deleteStudjpql(studId);
+    }
+
     //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")

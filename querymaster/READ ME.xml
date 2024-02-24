@@ -41,11 +41,15 @@ Sure! Here are some suggestions for operations you can perform using JPQL on Cla
 
 Basic CRUD Operations:
 	**Create new records: Use INSERT queries to add new records to the database.(Created problem with RELATIONSHIP Many-to-One, so this approach is on hold)
-	Reason for not able to insert new entry: The main reason why JPQL doesn't support inserting new objects directly like it does for updates is because JPQL is primarily designed for querying and manipulating existing entities in the database, not for creating new entities.
+		Reason for not able to insert new entry: Creating new records using JPQL is indeed possible, but when it comes to creating a new record that involves relationships with other entities, it becomes a bit more complex.
+		In your case, you want to create a new Student record with a reference to an existing Classroom entity. The problem arises because JPQL does not directly support the creation of new entity instances like it does for SELECT, UPDATE, and DELETE operations.
+		JPQL is primarily used for querying existing entities and managing their state. When you want to create a new record with relationships, you typically use entity managers and entity transactions to persist the new entities.
 	
 	**Retrieve records: Use SELECT queries to fetch records based on certain criteria.(Implemented)
 	**Update records: Use UPDATE queries to modify existing records. (Implemented)
 	Delete records: Use DELETE queries to remove records from the database.
+	Task: fetch second largest record using jpql,
+		  fetch all records
 
 Query by ID or Name:
 	Retrieve records by ID: Write a JPQL query to fetch records based on their unique identifier.

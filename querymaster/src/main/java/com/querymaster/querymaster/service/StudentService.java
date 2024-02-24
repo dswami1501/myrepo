@@ -72,5 +72,11 @@ public class StudentService {
         return "updateStudClassUsingJpql "+i;
     }
 
+    @Transactional
+    public String deleteStudjpql(int studId ){
+        int i = studentRepo.deleteStudentById(studId);
+        return "deleteStudjpql "+i;
+    }
+
     //Todo: Service methods using Jpql: end
 }
