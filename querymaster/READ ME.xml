@@ -1,0 +1,83 @@
+TYPES OF RELATIONSHIP
+=====================
+One-to-One (1:1) Mapping: This mapping associates one instance of an entity with exactly one instance of another entity. For example, a person may have only one passport.
+
+One-to-Many (1:N) Mapping: This mapping associates one instance of an entity with multiple instances of another entity. For example, a department can have multiple employees.
+
+Many-to-One (N:1) Mapping: This mapping associates multiple instances of an entity with exactly one instance of another entity. For example, multiple students can belong to one school.
+
+**Many-to-Many (N:N) Mapping: This mapping associates multiple instances of one entity with multiple instances of another entity. For example, students can enroll in multiple courses, and each course can have multiple students.
+
+WAYS TO EXECUTE QUERIES
+========================
+JPQL (Java Persistence Query Language): Write queries using JPQL, which is similar to SQL but operates on entities and their persistent fields. You can use JPQL queries with the createQuery method of the EntityManager interface.
+
+HQL (Hibernate Query Language) is another important way to execute queries using Hibernate. HQL is similar to JPQL (Java Persistence Query Language) but is specific to Hibernate and provides additional features and extensions.
+
+Criteria API: Construct queries programmatically using the Criteria API, which provides a type-safe way to build queries using Java objects and expressions. This API is particularly useful for dynamic queries and complex criteria.
+
+Named Queries: Define named queries in your entity classes or in XML mapping files. Named queries are pre-defined queries that can be executed using their unique name, and they provide a way to reuse queries across your application.
+
+Native SQL Queries: Execute native SQL queries directly using the createNativeQuery method of the EntityManager interface. This allows you to write and execute SQL queries directly against the database.
+
+Spring Data JPA Repository Methods: If you're using Spring Data JPA, you can define repository interfaces that extend JpaRepository or other repository interfaces provided by Spring Data. Spring Data JPA generates queries based on method names and parameters, allowing you to execute queries without writing explicit JPQL or SQL.
+
+QueryDSL: Use QueryDSL, which is a framework that provides a type-safe way to construct queries using fluent Java API. QueryDSL integrates with JPA and allows you to build queries using familiar Java syntax.
+
+Named Entity Graphs: Define named entity graphs to specify how related entities should be fetched in queries. This is useful for optimizing entity fetching strategies and avoiding N+1 query issues.
+
+Dynamic Query Generation: Implement dynamic query generation based on user input or application logic. This involves constructing JPQL or Criteria API queries dynamically at runtime based on dynamic criteria.
+
+JPQL, HQL, Named Queries, Named SQL Queries and Criteria API
+=============================================================
+
+JPQL:
+=====
+now I'm going to perform operation using JPQL on a Class entities like basic Crud operations, creating new record, getting by id or name or any other field, updating, deleting  suggest me any thing that I should try or any specific thing
+
+ChatGPT response:
+==================
+Sure! Here are some suggestions for operations you can perform using JPQL on Class entities:
+
+Basic CRUD Operations:
+	**Create new records: Use INSERT queries to add new records to the database.(Created problem with RELATIONSHIP Many-to-One, so this approach is on hold)
+	Reason for not able to insert new entry: The main reason why JPQL doesn't support inserting new objects directly like it does for updates is because JPQL is primarily designed for querying and manipulating existing entities in the database, not for creating new entities.
+	
+	**Retrieve records: Use SELECT queries to fetch records based on certain criteria.(Implemented)
+	**Update records: Use UPDATE queries to modify existing records. (Implemented)
+	Delete records: Use DELETE queries to remove records from the database.
+
+Query by ID or Name:
+	Retrieve records by ID: Write a JPQL query to fetch records based on their unique identifier.
+	Retrieve records by name: Query records based on their name field using JPQL.
+
+Query by Other Fields:
+	Perform searches based on various fields in the Class entity, such as grade, section, or any other custom fields you have defined.
+
+Advanced Queries:
+	Aggregation queries: Calculate aggregate functions like count, sum, average, etc., on certain fields.
+	Join queries: Use JOIN clauses to retrieve data from related entities.
+	Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.
+
+Parameterized Queries:
+	Use parameterized queries to make your JPQL queries dynamic and reusable, allowing you to pass in parameters at runtime.
+
+Pagination:
+	Implement pagination by using the setFirstResult and setMaxResults methods to limit the number of results returned by your query.
+
+Sorting:
+	Order the results of your queries by specific fields, such as sorting students by their names or grades.
+
+Batch Updates and Deletes:
+	Perform batch updates or deletes using JPQL to update or delete multiple records at once.
+
+Named Queries:
+	Define named queries in your entity classes or XML configuration files to give meaningful names to frequently used JPQL queries.
+
+Native Queries:
+	Experiment with native SQL queries alongside JPQL to leverage database-specific features or optimize performance in certain scenarios.
+
+These are just a few ideas to get you started with using JPQL for various operations on your Class entities. Feel free to explore additional features and functionalities based on your project requirements and learning objectives!  
+
+Basic CRUD Operations, Query by ID or Name, Query by Other Fields, Advanced Queries, Parameterized Queries, Pagination, Sorting, Batch Updates and Deletes, Named Queries, Native Queries
+

@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -57,6 +58,18 @@ public class StudentService {
             return "getStudentById "+ studentById.get();
         }
         return "getStudentById "+ studentById.get();
+    }
+
+    @Transactional
+    public String updateStudUsingJpql(String name,int studId ){
+        int i = studentRepo.updateStudentName(name, studId);
+        return "updateStudUsingJpql "+i;
+    }
+
+    @Transactional
+    public String updateStudClassUsingJpql(int grade,int studId ){
+        int i = studentRepo.updateClassroomGradeByStudentId(grade, studId);
+        return "updateStudClassUsingJpql "+i;
     }
 
     //Todo: Service methods using Jpql: end

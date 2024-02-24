@@ -35,6 +35,16 @@ public class StudentController {
         return studentService.getStudentByIdByJPQL(studId);
     }
 
+    @PutMapping("/updatestudjpql/{studName}/{studId}")
+    public String updateUsingJpql(@PathVariable String studName, @PathVariable int studId){
+        return studentService.updateStudUsingJpql(studName, studId);
+    }
+
+    @PutMapping("/updatestudclassroomjpql/{grade}/{studId}")
+    public String updateStudClassJpql(@PathVariable int grade, @PathVariable int studId){
+        return studentService.updateStudClassUsingJpql(grade, studId);
+    }
+
     //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")
