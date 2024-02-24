@@ -28,6 +28,15 @@ public class StudentController {
     public Student saveStud(@RequestBody Student newStud){
         return studentService.registerNewStudent(newStud);
     }
+
+    //Todo: Endpoints for JPQL(Java Persistence Query Language) start
+    @PostMapping("/jpqlinsert")
+    public String jpqlSave(@RequestBody Student newStud){
+        return studentService.insertUsingJpql(newStud);
+    }
+
+    //Todo: Endpoints for JPQL(Java Persistence Query Language) end
+
     @GetMapping("/test")
     public String getTest(){
         return "success";

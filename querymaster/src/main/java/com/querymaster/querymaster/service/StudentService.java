@@ -5,10 +5,13 @@ import com.querymaster.querymaster.model.Classroom;
 import com.querymaster.querymaster.model.Student;
 import com.querymaster.querymaster.repo.ClassroomRepo;
 import com.querymaster.querymaster.repo.StudentRepo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -16,6 +19,8 @@ import java.util.Optional;
 public class StudentService {
     Logger logger = LoggerFactory.getLogger(StudentService.class);
 
+    @PersistenceContext
+    private EntityManager entityManager;
 
     private StudentRepo studentRepo;
     @Autowired
@@ -50,4 +55,12 @@ public class StudentService {
         }
         return new StudentDTO();
     }
+
+    //Todo: Service methods using Jpql: start
+    /*@Transactional*/
+    public String insertUsingJpql(Student newStud){
+        int i = studentRepo.insertUsingJpql(newStud.getName(), newStud.getClassroom().getClassroomId());
+        return "new Student is: "+i;
+    }
+    //Todo: Service methods using Jpql: end
 }

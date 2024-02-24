@@ -27,7 +27,7 @@ public class ClassroomService {
     public Classroom createClassroom(Classroom newClassroom){
         List<Student> students = newClassroom.getStudents();
         List<Student> persistingStuds = new ArrayList<>();
-        if (students!=null||!students.isEmpty()){
+        if (students!=null){
             Iterator<Student> stuItr = students.iterator();
             while (stuItr.hasNext()){
                 Student student = stuItr.next();
@@ -38,19 +38,11 @@ public class ClassroomService {
                 }
             }
         }
-        if (persistingStuds!=null||!persistingStuds.isEmpty()){
+        if (persistingStuds!=null){
             newClassroom.setStudents(persistingStuds);
         }
         return classroomRepo.save(newClassroom);
     }
-
-    /*public Classroom getClassDetails(Integer classId) {
-        Optional<Classroom> byId = classroomRepo.findById(classId);
-        if (byId.isPresent()){
-            return byId.get();
-        }
-        return new Classroom();
-    }*/
 
     public ClassDTO getClassDetails(Integer classId) {
         return convertToClassroom(classId);

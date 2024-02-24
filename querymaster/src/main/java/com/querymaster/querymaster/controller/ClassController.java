@@ -23,4 +23,9 @@ public class ClassController {
     public Classroom saveClass(@RequestBody Classroom newClass){
         return classroomService.createClassroom(newClass);
     }
+
+    //Todo: Endpoints for JPQL(Java Persistence Query Language) start
+
+
+    //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 }
