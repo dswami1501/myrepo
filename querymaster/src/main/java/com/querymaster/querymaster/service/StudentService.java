@@ -58,5 +58,14 @@ public class StudentService {
         int i = studentRepo.insertUsingJpql(newStud.getName(), newStud.getClassroom().getClassroomId());
         return "new Student is: "+i;
     }
+
+    public String getStudentByIdByJPQL(int studId){
+        Optional<Student> studentById = studentRepo.findStudentById(studId);
+        if (studentById.isPresent()){
+            return "getStudentById "+ studentById.get();
+        }
+        return "getStudentById "+ studentById.get();
+    }
+
     //Todo: Service methods using Jpql: end
 }
