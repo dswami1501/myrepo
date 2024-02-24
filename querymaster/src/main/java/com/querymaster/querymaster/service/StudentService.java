@@ -5,13 +5,10 @@ import com.querymaster.querymaster.model.Classroom;
 import com.querymaster.querymaster.model.Student;
 import com.querymaster.querymaster.repo.ClassroomRepo;
 import com.querymaster.querymaster.repo.StudentRepo;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -54,11 +51,6 @@ public class StudentService {
     }
 
     //Todo: Service methods using Jpql: start
-    public String insertUsingJpql(Student newStud){
-        int i = studentRepo.insertUsingJpql(newStud.getName(), newStud.getClassroom().getClassroomId());
-        return "new Student is: "+i;
-    }
-
     public String getStudentByIdByJPQL(int studId){
         Optional<Student> studentById = studentRepo.findStudentById(studId);
         if (studentById.isPresent()){

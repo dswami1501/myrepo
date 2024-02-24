@@ -30,11 +30,6 @@ public class StudentController {
     }
 
     //Todo: Endpoints for JPQL(Java Persistence Query Language) start
-    @PostMapping("/jpqlinsert")
-    public String jpqlSave(@RequestBody Student newStud){
-        return studentService.insertUsingJpql(newStud);
-    }
-
     @GetMapping("/getstudjpql/{studId}")
     public String getStudByJPQL(@PathVariable int studId){
         return studentService.getStudentByIdByJPQL(studId);
