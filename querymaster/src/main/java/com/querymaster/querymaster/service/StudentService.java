@@ -108,5 +108,11 @@ public class StudentService {
         return "averageStudentId "+studentRepo.averageStudentidByClassroom(classroomById);
     }
     //Todo: Aggregation queries end
+    //Todo: Join queries start
+    public String allClassGradeAndGradeByStudentId(int studId){
+        return "allClassGradeAndGradeByStudentId: Classroom grade By studId: "+studentRepo.findClassroomGradeByStudentId(studId)+
+                " All classroom grades: "+studentRepo.findAllClassroomGrades();
+    }
+    //Todo: Join queries end
 //Todo: Service methods using Jpql: end
 }

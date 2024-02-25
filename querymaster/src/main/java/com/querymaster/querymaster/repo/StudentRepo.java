@@ -55,8 +55,15 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
 
     @Query("SELECT AVG(s.studentId) FROM Student s WHERE s.classroom = :classroom")
     Double averageStudentidByClassroom(@Param("classroom") Classroom classroom);
-
     //Todo: Aggregation queries end
+
+    //Todo: Join queries start
+    @Query("SELECT c.grade FROM Student s JOIN s.classroom c")
+    List<Integer> findAllClassroomGrades();
+
+    @Query("SELECT c.grade FROM Student s JOIN s.classroom c WHERE s.studentId = :studentId")
+    Integer findClassroomGradeByStudentId(@Param("studentId") int studentId);
+    //Todo: Join queries end
 //Todo: Service methods using Jpql: end
 
 }

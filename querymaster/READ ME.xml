@@ -65,17 +65,17 @@ Advanced Queries:
 			**Counting Records**:(Implemented)
 		   To count the number of records that match certain criteria, you can use the `COUNT` function in JPQL. For example, to count the number of students in a classroom
 
-			**Summing Values**:
+			**Summing Values**:(Implemented)
 		   To calculate the sum of a numeric attribute for entities that match certain criteria, you can use the `SUM` function. For example, to calculate the total score of all students in a classroom:
 
-			**Finding Maximum and Minimum Values**:
+			**Finding Maximum and Minimum Values**:(Implemented)
 		   You can use the `MAX` and `MIN` functions to find the maximum and minimum values of a numeric attribute for entities that match certain criteria. For example, to find the highest and lowest scores among students in a classroom:
 
-		**Calculating Average**:
-
+		**Calculating Average**:(Implemented)
 		   You can calculate the average value of a numeric attribute for entities that match certain criteria using the `AVG` function. For example, to find the average score of students in a classroom:
 	
-Join queries: Use JOIN clauses to retrieve data from related entities.
+Join queries: Use JOIN clauses to retrieve data from related entities.(Implemented)
+
 Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.
 
 Parameterized Queries:

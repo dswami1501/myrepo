@@ -78,6 +78,12 @@ public class StudentController {
         return studentService.averageStudentId(classId);
     }
     //Todo: Aggregation queries end
+    //Todo: Join queries start
+    @GetMapping("classgrade/{studId}")
+    public String getClassGrade(@PathVariable int studId){
+        return studentService.allClassGradeAndGradeByStudentId(studId);
+    }
+    //Todo: Join queries end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")
