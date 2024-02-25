@@ -8,6 +8,7 @@ import com.querymaster.querymaster.repo.StudentRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -120,5 +121,12 @@ public class StudentService {
         return "usingSubQuery: "+studentRepo.findStudentsByGrade(classGrade);
     }
     //Todo: Subqueries end
+
+    //Todo: Pagination Start
+    public String usingPagination(int pNo, int pSize){
+        PageRequest pageRequest = PageRequest.of(pNo, pSize);
+        return "usingPagination "+studentRepo.findAllStudentsWithPagination(pageRequest);
+    }
+    //Todo: Pagination end
 //Todo: Service methods using Jpql: end
 }

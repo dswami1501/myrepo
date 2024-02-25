@@ -2,6 +2,7 @@ package com.querymaster.querymaster.repo;
 
 import com.querymaster.querymaster.model.Classroom;
 import com.querymaster.querymaster.model.Student;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -69,6 +70,12 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Query("SELECT s FROM Student s WHERE s.classroom IN (SELECT c FROM Classroom c WHERE c.grade = :grade)")
     List<Student> findStudentsByGrade(@Param("grade") int grade);
     //Todo: Subqueries end
+
+    //Todo: Pagination start
+    @Query("SELECT s FROM Student s")
+    List<Student> findAllStudentsWithPagination(Pageable pageable);
+    /*Page<Student> findAllStudentsWithPagination(Pageable pageable);*/
+    //Todo: Pagination end
 //Todo: Service methods using Jpql: end
 
 }

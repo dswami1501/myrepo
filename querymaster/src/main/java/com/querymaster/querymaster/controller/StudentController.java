@@ -91,6 +91,13 @@ public class StudentController {
         return studentService.usingSubQuery(classGrade);
     }
     //Todo: Subqueries end
+
+    //Todo: Pagination start
+    @GetMapping("/pagination/{pNo}/{pSize}")
+    public String usePagination(@PathVariable int pNo, @PathVariable int pSize){
+        return studentService.usingPagination(pNo,pSize);
+    }
+    //Todo: Pagination end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")

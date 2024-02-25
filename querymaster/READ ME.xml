@@ -79,11 +79,11 @@ Join queries: Use JOIN clauses to retrieve data from related entities.(Implement
 Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.(Implemented)
 
 Parameterized Queries:
-	Use parameterized queries to make your JPQL queries dynamic and reusable, allowing you to pass in parameters at runtime.
+	Use parameterized queries to make your JPQL queries dynamic and reusable, allowing you to pass in parameters at runtime.(Already Implemented)
 
-Pagination:
-	Implement pagination by using the setFirstResult and setMaxResults methods to limit the number of results returned by your query.
-
+Pagination:(Implemented using Pageable Interface)
+	Implement pagination by using the setFirstResult and setMaxResults methods to limit the number of results returned by your query.(Pending: you cannot directly use setFirstResult and setMaxResults in JPQL queries without using the EntityManager or Query interface directly.)
+	
 Sorting:
 	Order the results of your queries by specific fields, such as sorting students by their names or grades.
 
