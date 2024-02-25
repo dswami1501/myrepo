@@ -64,6 +64,11 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Query("SELECT c.grade FROM Student s JOIN s.classroom c WHERE s.studentId = :studentId")
     Integer findClassroomGradeByStudentId(@Param("studentId") int studentId);
     //Todo: Join queries end
+
+    //Todo: Subqueries start
+    @Query("SELECT s FROM Student s WHERE s.classroom IN (SELECT c FROM Classroom c WHERE c.grade = :grade)")
+    List<Student> findStudentsByGrade(@Param("grade") int grade);
+    //Todo: Subqueries end
 //Todo: Service methods using Jpql: end
 
 }

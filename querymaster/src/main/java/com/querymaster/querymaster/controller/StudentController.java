@@ -84,6 +84,13 @@ public class StudentController {
         return studentService.allClassGradeAndGradeByStudentId(studId);
     }
     //Todo: Join queries end
+
+    //Todo: Subqueries start
+    @GetMapping("subquery/{classGrade}")
+    public String usingClassGrade(@PathVariable int classGrade){
+        return studentService.usingSubQuery(classGrade);
+    }
+    //Todo: Subqueries end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")

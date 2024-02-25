@@ -114,5 +114,11 @@ public class StudentService {
                 " All classroom grades: "+studentRepo.findAllClassroomGrades();
     }
     //Todo: Join queries end
+
+    //Todo: Subqueries start
+    public String usingSubQuery(int classGrade){
+        return "usingSubQuery: "+studentRepo.findStudentsByGrade(classGrade);
+    }
+    //Todo: Subqueries end
 //Todo: Service methods using Jpql: end
 }

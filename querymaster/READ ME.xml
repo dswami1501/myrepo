@@ -76,7 +76,7 @@ Advanced Queries:
 	
 Join queries: Use JOIN clauses to retrieve data from related entities.(Implemented)
 
-Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.
+Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.(Implemented)
 
 Parameterized Queries:
 	Use parameterized queries to make your JPQL queries dynamic and reusable, allowing you to pass in parameters at runtime.
