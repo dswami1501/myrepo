@@ -76,6 +76,20 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     List<Student> findAllStudentsWithPagination(Pageable pageable);
     /*Page<Student> findAllStudentsWithPagination(Pageable pageable);*/
     //Todo: Pagination end
+
+    //Todo:Sorting start
+    @Query("SELECT s FROM Student s ORDER BY s.name")
+    List<Student> findAllStudentsOrderedByName();
+
+    @Query("SELECT s FROM Student s ORDER BY s.name DESC")
+    List<Student> findAllStudentsOrderedByNameDesc();
+
+    @Query("SELECT DISTINCT s.classroom.grade FROM Student s ORDER BY s.classroom.grade")
+    List<Integer> findAllClassroomGradesSort();
+
+    @Query("SELECT DISTINCT s.classroom.grade FROM Student s ORDER BY s.classroom.grade DESC")
+    List<Integer> findAllClassroomGradesSortDesc();
+//Todo: Sorting end
 //Todo: Service methods using Jpql: end
 
 }

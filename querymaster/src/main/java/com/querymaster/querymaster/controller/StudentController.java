@@ -98,6 +98,13 @@ public class StudentController {
         return studentService.usingPagination(pNo,pSize);
     }
     //Todo: Pagination end
+
+    //Todo: Sorting start
+    @GetMapping("sorting")
+    public String useSorting(){
+        return studentService.sortingUse();
+    }
+    //Todo: Sorting end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")

@@ -84,7 +84,7 @@ Parameterized Queries:
 Pagination:(Implemented using Pageable Interface)
 	Implement pagination by using the setFirstResult and setMaxResults methods to limit the number of results returned by your query.(Pending: you cannot directly use setFirstResult and setMaxResults in JPQL queries without using the EntityManager or Query interface directly.)
 	
-Sorting:
+Sorting:(Implemented)
 	Order the results of your queries by specific fields, such as sorting students by their names or grades.
 
 Batch Updates and Deletes:

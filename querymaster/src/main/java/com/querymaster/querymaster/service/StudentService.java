@@ -128,5 +128,14 @@ public class StudentService {
         return "usingPagination "+studentRepo.findAllStudentsWithPagination(pageRequest);
     }
     //Todo: Pagination end
+
+    //Todo: Sorting start
+    public String sortingUse(){
+        String descName = "sortingUse Descending: "+studentRepo.findAllStudentsOrderedByNameDesc();
+        String classGrade = "sortingClassGrade: "+studentRepo.findAllClassroomGradesSort();
+        String classGradeDesc = "sortingClassGradeDesc: "+studentRepo.findAllClassroomGradesSortDesc();
+        return "sortingUse Ascending: "+studentRepo.findAllStudentsOrderedByName()+"\n"+descName+"\n"+classGrade+"\n"+classGradeDesc;
+    }
+    //Todo: Sorting end
 //Todo: Service methods using Jpql: end
 }
