@@ -52,16 +52,31 @@ Basic CRUD Operations:
 		  fetch all records(Pending)
 
 Query by ID or Name:
-	Retrieve records by ID: Write a JPQL query to fetch records based on their unique identifier.(Implemented)
-	Retrieve records by name: Query records based on their name field using JPQL.(Implemented)
+	**Retrieve records by ID: Write a JPQL query to fetch records based on their unique identifier.(Implemented)
+	**Retrieve records by name: Query records based on their name field using JPQL.(Implemented)
 
 Query by Other Fields:
 	Perform searches based on various fields in the Class entity, such as grade, section, or any other custom fields you have defined.(Pending)
 
 Advanced Queries:
 	Aggregation queries: Calculate aggregate functions like count, sum, average, etc., on certain fields.
-	Join queries: Use JOIN clauses to retrieve data from related entities.
-	Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.
+		In JPQL, aggregation queries allow you to perform calculations on groups of entities and return aggregated results. Here's how you can write aggregation queries in JPQL:
+
+			**Counting Records**:(Implemented)
+		   To count the number of records that match certain criteria, you can use the `COUNT` function in JPQL. For example, to count the number of students in a classroom
+
+			**Summing Values**:
+		   To calculate the sum of a numeric attribute for entities that match certain criteria, you can use the `SUM` function. For example, to calculate the total score of all students in a classroom:
+
+			**Finding Maximum and Minimum Values**:
+		   You can use the `MAX` and `MIN` functions to find the maximum and minimum values of a numeric attribute for entities that match certain criteria. For example, to find the highest and lowest scores among students in a classroom:
+
+		**Calculating Average**:
+
+		   You can calculate the average value of a numeric attribute for entities that match certain criteria using the `AVG` function. For example, to find the average score of students in a classroom:
+	
+Join queries: Use JOIN clauses to retrieve data from related entities.
+Subqueries: Write subqueries within your JPQL queries to perform more complex filtering or calculations.
 
 Parameterized Queries:
 	Use parameterized queries to make your JPQL queries dynamic and reusable, allowing you to pass in parameters at runtime.

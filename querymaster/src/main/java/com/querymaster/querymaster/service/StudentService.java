@@ -87,5 +87,26 @@ public class StudentService {
         return "deleteStudjpql "+i;
     }
     //Todo: Basic Crud Operations end
+
+    //Todo: Aggregation queries start
+    public String totalStudInClass(int classId){
+        return "totalStudInClass "+ studentRepo.countStudentsByClassroom(classId);
+    }
+
+    public String totalStudentidOfClass(int classId){
+        Classroom classroomById = studentRepo.findClassroomById(classId);
+        return "totalStudentidOfClass "+studentRepo.calculateTotalStudentidByClassroom(classroomById);
+    }
+
+    public String maxMinStudentidOfClass(int classId){
+        Classroom classroomById = studentRepo.findClassroomById(classId);
+        return "maxStudentidOfClass "+studentRepo.findHighestStudentidByClassroom(classroomById) + " minStudentidOfClass "+studentRepo.findLowestStudentidByClassroom(classroomById);
+    }
+
+    public String averageStudentId(int classId){
+        Classroom classroomById = studentRepo.findClassroomById(classId);
+        return "averageStudentId "+studentRepo.averageStudentidByClassroom(classroomById);
+    }
+    //Todo: Aggregation queries end
 //Todo: Service methods using Jpql: end
 }

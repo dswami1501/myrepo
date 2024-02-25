@@ -56,6 +56,28 @@ public class StudentController {
         return studentService.deleteStudjpql(studId);
     }
     //Todo: Basic Crud Operation start
+
+    //Todo: Aggregation queries start
+    @GetMapping("studcount/{classId}")
+    public String getStudInClass(@PathVariable int classId){
+        return studentService.totalStudInClass(classId);
+    }
+
+    @GetMapping("totalstudentid/{classId}")
+    public String totalStudentidByClass(@PathVariable int classId){
+        return studentService.totalStudentidOfClass(classId);
+    }
+
+    @GetMapping("maxMinStudentid/{classId}")
+    public String maxMinStudentidByClass(@PathVariable int classId){
+        return studentService.maxMinStudentidOfClass(classId);
+    }
+
+    @GetMapping("avgStudentid/{classId}")
+    public String avgStudentidByClass(@PathVariable int classId){
+        return studentService.averageStudentId(classId);
+    }
+    //Todo: Aggregation queries end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")

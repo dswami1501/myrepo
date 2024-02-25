@@ -1,5 +1,6 @@
 package com.querymaster.querymaster.repo;
 
+import com.querymaster.querymaster.model.Classroom;
 import com.querymaster.querymaster.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -23,6 +24,9 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Query("SELECT s FROM Student s JOIN s.classroom c WHERE c.classroomId = :classroomId")
     Optional<List<Student>> findStudentsByClassroomId(@Param("classroomId") int classroomId);
 
+    @Query("SELECT c FROM Classroom c WHERE c.classroomId = :classroomId")
+    Classroom findClassroomById(@Param("classroomId") int classroomId);
+
     @Modifying
     @Query("UPDATE Student s SET s.name = :name WHERE s.studentId = :studentId")
     int updateStudentName(@Param("name") String name, @Param("studentId") int studentId);
@@ -35,6 +39,24 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Query("DELETE FROM Student s WHERE s.id = :studentId")
     int deleteStudentById(@Param("studentId") int studentId);
     //Todo: Basic Crud Operations end
+
+    //Todo: Aggregation queries start
+    @Query("SELECT COUNT(s) FROM Student s JOIN s.classroom c WHERE c.classroomId = :classroomId")
+    Long countStudentsByClassroom(@Param("classroomId") int classroomId);
+
+    @Query("SELECT SUM(s.studentId) FROM Student s WHERE s.classroom = :classroom")
+    Double calculateTotalStudentidByClassroom(@Param("classroom") Classroom classroom);
+
+    @Query("SELECT MAX(s.studentId) FROM Student s WHERE s.classroom = :classroom")
+    Double findHighestStudentidByClassroom(@Param("classroom") Classroom classroom);
+
+    @Query("SELECT MIN(s.studentId) FROM Student s WHERE s.classroom = :classroom")
+    Double findLowestStudentidByClassroom(@Param("classroom") Classroom classroom);
+
+    @Query("SELECT AVG(s.studentId) FROM Student s WHERE s.classroom = :classroom")
+    Double averageStudentidByClassroom(@Param("classroom") Classroom classroom);
+
+    //Todo: Aggregation queries end
 //Todo: Service methods using Jpql: end
 
 }
