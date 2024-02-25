@@ -51,13 +51,22 @@ public class StudentService {
         return new StudentDTO();
     }
 
-    //Todo: Service methods using Jpql: start
+//Todo: Service methods using Jpql: start
+    //Todo: Basic Crud Operations start
     public String getStudentByIdByJPQL(int studId){
         Optional<Student> studentById = studentRepo.findStudentById(studId);
         if (studentById.isPresent()){
             return "getStudentById "+ studentById.get();
         }
         return "getStudentById "+ studentById.get();
+    }
+
+    public String getStudentByName(String studName){
+        Optional<Student> studentByName = studentRepo.findStudentByName(studName);
+        if (studentByName.isPresent()){
+            return "getStudentById "+ studentByName.get();
+        }
+        return "getStudentById "+ studentByName.get();
     }
 
     @Transactional
@@ -77,6 +86,6 @@ public class StudentService {
         int i = studentRepo.deleteStudentById(studId);
         return "deleteStudjpql "+i;
     }
-
-    //Todo: Service methods using Jpql: end
+    //Todo: Basic Crud Operations end
+//Todo: Service methods using Jpql: end
 }

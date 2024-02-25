@@ -46,17 +46,17 @@ Basic CRUD Operations:
 		JPQL is primarily used for querying existing entities and managing their state. When you want to create a new record with relationships, you typically use entity managers and entity transactions to persist the new entities.
 	
 	**Retrieve records: Use SELECT queries to fetch records based on certain criteria.(Implemented)
-	**Update records: Use UPDATE queries to modify existing records. (Implemented)
-	Delete records: Use DELETE queries to remove records from the database.
-	Task: fetch second largest record using jpql,
-		  fetch all records
+	**Update records: Use UPDATE queries to modify existing records.(Implemented)
+	**Delete records: Use DELETE queries to remove records from the database.(Implemented)
+	Task: fetch second largest record using jpql,(Pending)
+		  fetch all records(Pending)
 
 Query by ID or Name:
-	Retrieve records by ID: Write a JPQL query to fetch records based on their unique identifier.
-	Retrieve records by name: Query records based on their name field using JPQL.
+	Retrieve records by ID: Write a JPQL query to fetch records based on their unique identifier.(Implemented)
+	Retrieve records by name: Query records based on their name field using JPQL.(Implemented)
 
 Query by Other Fields:
-	Perform searches based on various fields in the Class entity, such as grade, section, or any other custom fields you have defined.
+	Perform searches based on various fields in the Class entity, such as grade, section, or any other custom fields you have defined.(Pending)
 
 Advanced Queries:
 	Aggregation queries: Calculate aggregate functions like count, sum, average, etc., on certain fields.

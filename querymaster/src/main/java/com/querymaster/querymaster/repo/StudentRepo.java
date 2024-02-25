@@ -12,9 +12,13 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepo extends JpaRepository<Student, Integer> {
-
+//Todo: Repo methods using Jpql: start
+    //Todo: Basic Crud Operations start
     @Query("SELECT s FROM Student s WHERE s.studentId = :studentId")
     Optional<Student> findStudentById(@Param("studentId") int studentId);
+
+    @Query("SELECT s FROM Student s WHERE s.name = :name")
+    Optional<Student> findStudentByName(@Param("name") String name);
 
     @Query("SELECT s FROM Student s JOIN s.classroom c WHERE c.classroomId = :classroomId")
     Optional<List<Student>> findStudentsByClassroomId(@Param("classroomId") int classroomId);
@@ -30,4 +34,7 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Modifying
     @Query("DELETE FROM Student s WHERE s.id = :studentId")
     int deleteStudentById(@Param("studentId") int studentId);
+    //Todo: Basic Crud Operations end
+//Todo: Service methods using Jpql: end
+
 }

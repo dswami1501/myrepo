@@ -29,10 +29,16 @@ public class StudentController {
         return studentService.registerNewStudent(newStud);
     }
 
-    //Todo: Endpoints for JPQL(Java Persistence Query Language) start
+//Todo: Endpoints for JPQL(Java Persistence Query Language) start
+    //Todo: Basic Crud Operation start
     @GetMapping("/getstudjpql/{studId}")
     public String getStudByJPQL(@PathVariable int studId){
         return studentService.getStudentByIdByJPQL(studId);
+    }
+
+    @GetMapping("/getstudnamejpql/{studName}")
+    public String getStudByName(@PathVariable String studName){
+        return studentService.getStudentByName(studName);
     }
 
     @PutMapping("/updatestudjpql/{studName}/{studId}")
@@ -49,8 +55,8 @@ public class StudentController {
     public String deleteStudWithJpql(@PathVariable int studId){
         return studentService.deleteStudjpql(studId);
     }
-
-    //Todo: Endpoints for JPQL(Java Persistence Query Language) end
+    //Todo: Basic Crud Operation start
+//Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")
     public String getTest(){
