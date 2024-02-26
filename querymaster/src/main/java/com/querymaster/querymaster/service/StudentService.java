@@ -5,6 +5,8 @@ import com.querymaster.querymaster.model.Classroom;
 import com.querymaster.querymaster.model.Student;
 import com.querymaster.querymaster.repo.ClassroomRepo;
 import com.querymaster.querymaster.repo.StudentRepo;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
 public class StudentService {
     Logger logger = LoggerFactory.getLogger(StudentService.class);
+
+    @Autowired
+    private EntityManager entityManager;
 
     private StudentRepo studentRepo;
     @Autowired
@@ -145,5 +151,20 @@ public class StudentService {
         return "batchUpdate "+i;
     }
     //Todo: batch update end
+
+    //Todo: Named Query start
+    //Approach One and Two(Using Utility)
+    public String namedQueryTest(int classId, int classGrade){
+        TypedQuery<Student> findStudentsByClassroomId = entityManager.createNamedQuery("Student.byClassId", Student.class);
+        findStudentsByClassroomId.setParameter("classroomId", classId);
+        TypedQuery<Classroom> findClassByGrade = entityManager.createNamedQuery("Class.byClassGrade", Classroom.class);
+        findClassByGrade.setParameter("grade", classGrade);
+        List<Student> studentsUsingClassroomId = studentRepo.findStudentsUsingClassroomId(classId);
+        List<Classroom> classroomByGrade = studentRepo.findClassroomByGrade(classGrade);
+        return "namedQueryTest: findStudentsByClassroomId "+findStudentsByClassroomId.getResultList()+"\n"+"findClassByGrade: "+findClassByGrade.getResultList()
+                +"\n"+"Secondapproach: studentsUsingClassroomId:"+studentsUsingClassroomId+"\n"+"Secondapproach: classroomByGrade:"+classroomByGrade;
+    }
+
+    //Todo: Named Query end
 //Todo: Service methods using Jpql: end
 }

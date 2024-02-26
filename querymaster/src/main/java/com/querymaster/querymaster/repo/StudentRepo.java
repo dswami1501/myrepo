@@ -2,6 +2,9 @@ package com.querymaster.querymaster.repo;
 
 import com.querymaster.querymaster.model.Classroom;
 import com.querymaster.querymaster.model.Student;
+import com.querymaster.querymaster.utility.NamedQueriesUtility;
+import jakarta.persistence.NamedQuery;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -14,6 +17,7 @@ import java.util.Optional;
 
 @Repository
 public interface StudentRepo extends JpaRepository<Student, Integer> {
+
 //Todo: Repo methods using Jpql: start
     //Todo: Basic Crud Operations start
     @Query("SELECT s FROM Student s WHERE s.studentId = :studentId")
@@ -96,6 +100,15 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Query("UPDATE Student s SET s.classroom.classroomId = :newClassroomId WHERE s.classroom.classroomId = :oldClassroomId")
     int updateClassroomIdByOldValue(@Param("oldClassroomId") int oldClassroomId, @Param("newClassroomId") int newClassroomId);
     //Todo: batch update end
+
+
+    //Todo: Named Queries Second Approach start
+    @Query(NamedQueriesUtility.FIND_STUDENTS_BY_CLASSROOM_ID)
+    List<Student> findStudentsUsingClassroomId(@Param("classroomId") int classroomId);
+
+    @Query(NamedQueriesUtility.FIND_CLASSROOMS_BY_GRADE)
+    List<Classroom> findClassroomByGrade(@Param("grade") int grade);
+    //Todo: Named Queries Second Approach end
 //Todo: Service methods using Jpql: end
 
 }

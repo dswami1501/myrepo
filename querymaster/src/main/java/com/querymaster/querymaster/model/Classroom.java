@@ -6,6 +6,12 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+@NamedQueries({
+        @NamedQuery(name = "Student.byClassId",
+                query = "SELECT s FROM Student s WHERE s.classroom.classroomId = :classroomId"),
+        @NamedQuery(name = "Class.byClassGrade",
+                query = "SELECT c FROM Classroom c WHERE c.grade = :grade")
+})
 @Entity
 public class Classroom {
     @Id

@@ -112,6 +112,13 @@ public class StudentController {
         return studentService.batchUpdate(oldClassId, newClassId);
     }
     //Todo: batch update end
+
+    //Todo: Named query start
+    @GetMapping("namedquery/{classId}/{classGrade}")
+    public String namedQueryTest(@PathVariable int classId,@PathVariable int classGrade){
+        return studentService.namedQueryTest(classId,classGrade);
+    }
+    //Todo: Named query end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")
