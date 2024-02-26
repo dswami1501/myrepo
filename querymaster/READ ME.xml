@@ -90,7 +90,7 @@ Sorting:(Implemented)
 Batch Updates and Deletes:(Implemented: Update, Pending: Delete)
 	Perform batch updates or deletes using JPQL to update or delete multiple records at once.
 
-Named Queries:
+Named Queries:(Implemented)
 	Define named queries in your entity classes or XML configuration files to give meaningful names to frequently used JPQL queries.
 
 Native Queries:
