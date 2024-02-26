@@ -109,6 +109,11 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
     @Query(NamedQueriesUtility.FIND_CLASSROOMS_BY_GRADE)
     List<Classroom> findClassroomByGrade(@Param("grade") int grade);
     //Todo: Named Queries Second Approach end
+
+    //Todo: Native queries start
+    @Query(value = "SELECT * FROM student WHERE classroom_id = :classroomId", nativeQuery = true)
+    List<Student> findStudentsByClassroomIdUsingNativeQuery(@Param("classroomId") int classroomId);
+    //Todo: Native queries end
 //Todo: Service methods using Jpql: end
 
 }

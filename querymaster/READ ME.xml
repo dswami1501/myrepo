@@ -93,7 +93,7 @@ Batch Updates and Deletes:(Implemented: Update, Pending: Delete)
 Named Queries:(Implemented)
 	Define named queries in your entity classes or XML configuration files to give meaningful names to frequently used JPQL queries.
 
-Native Queries:
+Native Queries:(Implemented)
 	Experiment with native SQL queries alongside JPQL to leverage database-specific features or optimize performance in certain scenarios.
 
 These are just a few ideas to get you started with using JPQL for various operations on your Class entities. Feel free to explore additional features and functionalities based on your project requirements and learning objectives!  

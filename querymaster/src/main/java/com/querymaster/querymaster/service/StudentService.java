@@ -164,7 +164,12 @@ public class StudentService {
         return "namedQueryTest: findStudentsByClassroomId "+findStudentsByClassroomId.getResultList()+"\n"+"findClassByGrade: "+findClassByGrade.getResultList()
                 +"\n"+"Secondapproach: studentsUsingClassroomId:"+studentsUsingClassroomId+"\n"+"Secondapproach: classroomByGrade:"+classroomByGrade;
     }
-
     //Todo: Named Query end
+
+    //Todo: Native queries start
+    public String jpqlNativeQuery(int classId){
+        return "jpqlNativeQuery: "+studentRepo.findStudentsByClassroomIdUsingNativeQuery(classId);
+    }
+    //Todo: Native queries end
 //Todo: Service methods using Jpql: end
 }

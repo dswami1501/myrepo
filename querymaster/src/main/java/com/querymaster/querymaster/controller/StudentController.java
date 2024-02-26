@@ -119,6 +119,13 @@ public class StudentController {
         return studentService.namedQueryTest(classId,classGrade);
     }
     //Todo: Named query end
+
+    //Todo: Native Sql query start
+    @GetMapping("/native/{classId}")
+    public String testNativeQuery(@PathVariable int classId){
+        return studentService.jpqlNativeQuery(classId);
+    }
+    //Todo: Native Sql query end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")
