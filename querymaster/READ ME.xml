@@ -87,7 +87,7 @@ Pagination:(Implemented using Pageable Interface)
 Sorting:(Implemented)
 	Order the results of your queries by specific fields, such as sorting students by their names or grades.
 
-Batch Updates and Deletes:
+Batch Updates and Deletes:(Implemented: Update, Pending: Delete)
 	Perform batch updates or deletes using JPQL to update or delete multiple records at once.
 
 Named Queries:

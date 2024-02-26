@@ -105,6 +105,13 @@ public class StudentController {
         return studentService.sortingUse();
     }
     //Todo: Sorting end
+
+    //Todo: batch update start
+    @GetMapping("batch/{oldClassId}/{newClassId}")
+    public String batchUpdateTest(@PathVariable int oldClassId, @PathVariable int newClassId){
+        return studentService.batchUpdate(oldClassId, newClassId);
+    }
+    //Todo: batch update end
 //Todo: Endpoints for JPQL(Java Persistence Query Language) end
 
     @GetMapping("/test")

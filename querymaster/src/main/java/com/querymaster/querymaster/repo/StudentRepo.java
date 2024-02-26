@@ -89,7 +89,13 @@ public interface StudentRepo extends JpaRepository<Student, Integer> {
 
     @Query("SELECT DISTINCT s.classroom.grade FROM Student s ORDER BY s.classroom.grade DESC")
     List<Integer> findAllClassroomGradesSortDesc();
-//Todo: Sorting end
+    //Todo: Sorting end
+
+    //Todo: batch update start
+    @Modifying
+    @Query("UPDATE Student s SET s.classroom.classroomId = :newClassroomId WHERE s.classroom.classroomId = :oldClassroomId")
+    int updateClassroomIdByOldValue(@Param("oldClassroomId") int oldClassroomId, @Param("newClassroomId") int newClassroomId);
+    //Todo: batch update end
 //Todo: Service methods using Jpql: end
 
 }

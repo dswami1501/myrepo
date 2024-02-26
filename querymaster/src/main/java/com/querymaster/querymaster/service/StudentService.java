@@ -137,5 +137,13 @@ public class StudentService {
         return "sortingUse Ascending: "+studentRepo.findAllStudentsOrderedByName()+"\n"+descName+"\n"+classGrade+"\n"+classGradeDesc;
     }
     //Todo: Sorting end
+
+    //Todo: batch update start
+    @Transactional
+    public String batchUpdate(int oldClassId, int newClassId){
+        int i = studentRepo.updateClassroomIdByOldValue(oldClassId, newClassId);
+        return "batchUpdate "+i;
+    }
+    //Todo: batch update end
 //Todo: Service methods using Jpql: end
 }
