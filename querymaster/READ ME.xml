@@ -10,23 +10,23 @@ Many-to-One (N:1) Mapping: This mapping associates multiple instances of an enti
 
 WAYS TO EXECUTE QUERIES
 ========================
-JPQL (Java Persistence Query Language): Write queries using JPQL, which is similar to SQL but operates on entities and their persistent fields. You can use JPQL queries with the createQuery method of the EntityManager interface.
+JPQL (Java Persistence Query Language): Write queries using JPQL, which is similar to SQL but operates on entities and their persistent fields. You can use JPQL queries with the createQuery method of the EntityManager interface.(Implemented and few things are pending)
 
-HQL (Hibernate Query Language) is another important way to execute queries using Hibernate. HQL is similar to JPQL (Java Persistence Query Language) but is specific to Hibernate and provides additional features and extensions.
+HQL (Hibernate Query Language) is another important way to execute queries using Hibernate. HQL is similar to JPQL (Java Persistence Query Language) but is specific to Hibernate and provides additional features and extensions.(Pending: Putting on hold)
 
-Criteria API: Construct queries programmatically using the Criteria API, which provides a type-safe way to build queries using Java objects and expressions. This API is particularly useful for dynamic queries and complex criteria.
+Criteria API: Construct queries programmatically using the Criteria API, which provides a type-safe way to build queries using Java objects and expressions. This API is particularly useful for dynamic queries and complex criteria.(Pending: Putting on hold)
 
-Named Queries: Define named queries in your entity classes or in XML mapping files. Named queries are pre-defined queries that can be executed using their unique name, and they provide a way to reuse queries across your application.
+Named Queries: Define named queries in your entity classes or in XML mapping files. Named queries are pre-defined queries that can be executed using their unique name, and they provide a way to reuse queries across your application.(Implemented)
 
-Native SQL Queries: Execute native SQL queries directly using the createNativeQuery method of the EntityManager interface. This allows you to write and execute SQL queries directly against the database.
+Native SQL Queries: Execute native SQL queries directly using the createNativeQuery method of the EntityManager interface. This allows you to write and execute SQL queries directly against the database.(Pending)
 
-Spring Data JPA Repository Methods: If you're using Spring Data JPA, you can define repository interfaces that extend JpaRepository or other repository interfaces provided by Spring Data. Spring Data JPA generates queries based on method names and parameters, allowing you to execute queries without writing explicit JPQL or SQL.
+Spring Data JPA Repository Methods: If you're using Spring Data JPA, you can define repository interfaces that extend JpaRepository or other repository interfaces provided by Spring Data. Spring Data JPA generates queries based on method names and parameters, allowing you to execute queries without writing explicit JPQL or SQL.(Implemented and few things are Pending)
 
-QueryDSL: Use QueryDSL, which is a framework that provides a type-safe way to construct queries using fluent Java API. QueryDSL integrates with JPA and allows you to build queries using familiar Java syntax.
+QueryDSL: Use QueryDSL, which is a framework that provides a type-safe way to construct queries using fluent Java API. QueryDSL integrates with JPA and allows you to build queries using familiar Java syntax.(HOLD)
 
-Named Entity Graphs: Define named entity graphs to specify how related entities should be fetched in queries. This is useful for optimizing entity fetching strategies and avoiding N+1 query issues.
+Named Entity Graphs: Define named entity graphs to specify how related entities should be fetched in queries. This is useful for optimizing entity fetching strategies and avoiding N+1 query issues.(HOLD)
 
-Dynamic Query Generation: Implement dynamic query generation based on user input or application logic. This involves constructing JPQL or Criteria API queries dynamically at runtime based on dynamic criteria.
+Dynamic Query Generation: Implement dynamic query generation based on user input or application logic. This involves constructing JPQL or Criteria API queries dynamically at runtime based on dynamic criteria.(HOLD)
 
 JPQL, HQL, Named Queries, Named SQL Queries and Criteria API
 =============================================================
