@@ -1,4 +1,4 @@
-package java8.comparatorsamples;
+package com.java8.java8.java8.comparatorsamples;
 
 import java.util.*;
 

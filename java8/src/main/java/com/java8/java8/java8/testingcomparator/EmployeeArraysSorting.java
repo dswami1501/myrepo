@@ -1,4 +1,4 @@
-package java8.testingcomparator;
+package com.java8.java8.java8.testingcomparator;
 
 import java.util.Arrays;
 import java.util.Comparator;

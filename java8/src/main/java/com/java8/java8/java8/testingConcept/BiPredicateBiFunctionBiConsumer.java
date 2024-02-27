@@ -1,4 +1,4 @@
-package java8.testingConcept;
+package com.java8.java8.java8.testingConcept;
 
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;

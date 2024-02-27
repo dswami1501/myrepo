@@ -1,4 +1,4 @@
-package java8.testingConcept;
+package com.java8.java8.java8.testingConcept;
 
 import java.util.function.Consumer;
 import java.util.function.Function;

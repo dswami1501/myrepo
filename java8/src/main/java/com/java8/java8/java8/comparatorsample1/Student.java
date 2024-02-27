@@ -1,4 +1,4 @@
-package java8.comparatorsample1;
+package com.java8.java8.java8.comparatorsample1;
 
 public class Student {
     private Integer age;

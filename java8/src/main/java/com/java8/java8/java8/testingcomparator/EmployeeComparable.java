@@ -1,10 +1,6 @@
-package java8.testingcomparator;
-
-import java8.comparatorsamples.PersonComparator;
-import java8.programs.Employee;
+package com.java8.java8.java8.testingcomparator;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 

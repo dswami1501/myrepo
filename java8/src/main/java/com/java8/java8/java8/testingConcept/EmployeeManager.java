@@ -1,6 +1,4 @@
-package java8.testingConcept;
-
-import java8.testingConcept.Employee;
+package com.java8.java8.java8.testingConcept;
 
 public interface EmployeeManager {
     public Employee getEmployee();

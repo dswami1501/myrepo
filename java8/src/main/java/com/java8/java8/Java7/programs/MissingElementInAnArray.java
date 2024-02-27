@@ -1,4 +1,4 @@
-package Java7.programs;
+package com.java8.java8.Java7.programs;
 
 public class MissingElementInAnArray {
     //n * (n + 1) / 2 is a well-known formula for finding the sum of the first n natural numbers
