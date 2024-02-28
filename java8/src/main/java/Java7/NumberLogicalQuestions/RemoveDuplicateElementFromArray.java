@@ -1,7 +1,6 @@
-package com.java8.java8.Java7.NumberLogicalQuestions;
+package Java7.NumberLogicalQuestions;
 
 public class RemoveDuplicateElementFromArray {
-
 	public static void main(String[] args) {
 		int[] a = { 1, 2, 2, 3, 4, 5, 5, 5, 5 };
 		int j = 0;
@@ -13,13 +12,9 @@ public class RemoveDuplicateElementFromArray {
 				j++;
 			}
 		}
-		
 		a[j] = a[a.length - 1];
-		
 		for (int i = 0; i < j + 1; i++) {
 			System.out.println(a[i] + " ");
 		}
-
 	}
-
 }

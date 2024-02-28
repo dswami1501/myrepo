@@ -1,11 +1,9 @@
-package com.java8.java8.Java7.StarPattern;
+package Java7.StarPattern;
 
 import java.util.Scanner;
 
 public class Pattern6 {
-
 	public static void main(String[] args) {
-		
 		 // Create a new Scanner object
         Scanner scanner = new Scanner(System.in);
 

@@ -1,7 +1,6 @@
-package com.java8.java8.Java7.StringLogicalQuestions;
+package Java7.StringLogicalQuestions;
 
 public class StringLengthWithoutUsingLengthFunction {
-
 	public static void main(String[] args) {
 		//Java string length without using length() method
 		String test="Deepak";
@@ -11,7 +10,5 @@ public class StringLengthWithoutUsingLengthFunction {
 			i++;
 		}
 		System.out.println("length is "+i);
-
 	}
-
 }

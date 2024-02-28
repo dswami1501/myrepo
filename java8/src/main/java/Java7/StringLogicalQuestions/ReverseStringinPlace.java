@@ -1,7 +1,6 @@
-package com.java8.java8.Java7.StringLogicalQuestions;
+package Java7.StringLogicalQuestions;
 
 public class ReverseStringinPlace {
-	
 	public void reverseWordInMyString(String str)
 	 {
 	/* The split() method of String class splits
@@ -32,7 +31,5 @@ public class ReverseStringinPlace {
 		ReverseStringinPlace obj = new ReverseStringinPlace();
 		obj.reverseWordInMyString("Welcome to BeginnersBook");
 		obj.reverseWordInMyString("This is an easy Java Program");
-
 	}
-
 }

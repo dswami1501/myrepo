@@ -1,4 +1,4 @@
-package com.java8.java8.Java7.StringLogicalQuestions;
+package Java7.StringLogicalQuestions;
 
 import java.util.HashMap;
 import java.util.Iterator;

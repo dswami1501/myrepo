@@ -1,4 +1,4 @@
-package com.java8.java8.Java7.StarPattern;
+package Java7.StarPattern;
 
 public class Pattern7 {
 

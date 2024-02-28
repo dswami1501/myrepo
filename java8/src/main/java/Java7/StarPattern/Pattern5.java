@@ -1,9 +1,8 @@
-package com.java8.java8.Java7.StarPattern;
+package Java7.StarPattern;
 
 import java.util.Scanner;
 
 public class Pattern5 {
-
 	public static void main(String[] args) {
 		// Create a new Scanner object
         Scanner scanner = new Scanner(System.in);
@@ -29,9 +28,7 @@ public class Pattern5 {
             System.out.println();
         }
         scanner.close();
-
 	}
-
 }
 /*Output*/
 /*Enter the number of rows needed to print the pattern 

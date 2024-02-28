@@ -1,4 +1,4 @@
-package com.java8.java8.Java7.NumberLogicalQuestions;
+package Java7.NumberLogicalQuestions;
 
 public class ArmstrongNumber {
 

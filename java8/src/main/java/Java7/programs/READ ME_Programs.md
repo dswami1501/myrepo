@@ -1,3 +1,6 @@
+# <u> Programs </u>
+## *MissingElementInAnArray*
+```java
 package Java7.programs;
 
 public class MissingElementInAnArray {
@@ -19,3 +22,4 @@ public class MissingElementInAnArray {
         return expectedSum-originalSum;
     }
 }
+```

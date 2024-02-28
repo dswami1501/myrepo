@@ -1,7 +1,6 @@
-package com.java8.java8.Java7.StringLogicalQuestions;
+package Java7.StringLogicalQuestions;
 
 public class SwapStringWithoutUsingThirdVariable {
-
 	public static void main(String[] args) {
 		String x = "deepak";
 		String y = "swami";
@@ -12,7 +11,5 @@ public class SwapStringWithoutUsingThirdVariable {
 		System.out.println("Value of x.length()-y.length() "+ (x.length()-y.length()));
 		x = x.substring(y.length());//here y.length is 6 so leftout first 6 characters		
 		System.out.println("before swapping, x:- "+x +" y:- "+y );
-
 	}
-
 }

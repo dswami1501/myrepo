@@ -1,4 +1,4 @@
-package com.java8.java8.Java7.StringLogicalQuestions;
+package Java7.StringLogicalQuestions;
 
 import java.util.Scanner;
 
@@ -20,7 +20,5 @@ public class StringPalindrome {
 		} else {
 		System.out.println("The string is not palindrome.");
 		}
-
 	}
-
 }
