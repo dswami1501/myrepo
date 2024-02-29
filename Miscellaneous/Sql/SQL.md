@@ -129,7 +129,7 @@ insert into employee values(1,'Deepak',1),(2,'Rakesh',1),(3,'Sujal',1),(4,'Hari'
 >`NOTE:` FOR TESTING PURPOSE: I had set the value for department id where id='1' as null. Output for which you can see in below Joins Images. EXCLUDE SELF JOIN and CROSS JOIN from it. 
 
 `INNER JOIN`: Returns rows that have matching values in both tables based on the join condition.
->![Inner Join](Images/Joins/INNER%20JOIN.png)
+>![Inner Join](Images/Joins/INNER_JOIN.png)
 ```sql
 /*Syntax*/
 SELECT * FROM table1 INNER JOIN table2 ON table1.column = table2.column;
@@ -150,7 +150,7 @@ WHERE d.department_name = 'IT';
 ```
 
 `LEFT JOIN (or LEFT OUTER JOIN)`: Returns all rows from the left table and the matched rows from the right table. If there is no match, the result contains NULL in the columns from the right table.
->![LEFT JOIN](Images/Joins/Left%20join.png)
+>![LEFT JOIN](Images/Joins/Left_Join.png)
 ```sql
 /*Syntax*/
 SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column;
@@ -158,7 +158,7 @@ SELECT * FROM table1 LEFT JOIN table2 ON table1.column = table2.column;
 Select * from employee Left join department on employee.department_id=department.department_id
 ```
 `RIGHT JOIN (or RIGHT OUTER JOIN)`: Returns all rows from the right table and the matched rows from the left table. If there is no match, the result contains NULL in the columns from the left table.
->![RIGHT JOIN](Images/Joins/Right%20join.png)
+>![RIGHT JOIN](Images/Joins/Right_Join.png)
 ```sql
 /*Syntax*/
 SELECT * FROM table1 RIGHT JOIN table2 ON table1.column = table2.column;
@@ -170,7 +170,7 @@ select * from employee right join department on employee.department_id = departm
 >It is addition of Left and Right Join.
 
 Returns all rows from both tables, matching records from both sides where available. If there is no match, the result contains NULL in the columns from the other table.
->![FULL JOIN](Images/Joins/Full%20Join.png)
+>![FULL JOIN](Images/Joins/Full_Join.png)
 ```sql
 /*Syntax*/
 SELECT * FROM table1 FULL JOIN table2 ON table1.column = table2.column;
@@ -179,7 +179,7 @@ Select * from employee Full Join department on employee.department_id=department
 ```
 
 `NATURAL JOIN`: is a type of join that automatically matches columns with the same names in the two tables being joined. It eliminates the need for specifying the columns to join on explicitly, as it identifies the matching columns based on their names.
->![NATURAL JOIN](Images/Joins/NATURAL%20JOIN.png)
+>![NATURAL JOIN](Images/Joins/NATURAL_JOIN.png)
 ```sql
 /*Syntax*/
 SELECT * FROM table1 NATURAL JOIN table2;
@@ -189,7 +189,7 @@ SELECT * FROM employee NATURAL JOIN department;
 
 `CROSS JOIN`: Returns the Cartesian product of the two tables, meaning each row from the first table is combined with every row from the second table.
 >`NOTE`: Below image is not complete but it depicts that every employee from Employee table is with every department in Department table.
->![CROSS JOIN](Images/Joins/CROSS%20JOIN.png)
+>![CROSS JOIN](Images/Joins/CROSS_JOIN.png)
 ```sql
 /*Syntax*/
 SELECT * FROM table1 CROSS JOIN table2;
@@ -198,7 +198,7 @@ SELECT * FROM Employee CROSS JOIN Department;
 ```
 
 `SELF JOIN`: Joins a table to itself, typically used when comparing rows within the same table.
->![SELF JOIN](Images/Joins/SELF%20JOIN.png)
+>![SELF JOIN](Images/Joins/SELF_JOIN.png)
 ```sql
 /*Example*/
 SELECT e1.name AS employee_name, e2.name AS manager_name FROM Employee e1 JOIN Employee e2 
