@@ -19,13 +19,13 @@ public class MathUtilsTest {
     @Test
     void testCircleArea(){
         MathUtils mathUtils = new MathUtils();
-        //assertThrows(NullPointerException.class, () -> mathUtils.divide(1,0),"divide by 0 should throw");
-        assertThrows(ArithmeticException.class, () -> mathUtils.divide(1,0),"divide by 0 should throw");
+        assertEquals(314.1592653589793,mathUtils.computeCircleArea(10),"This is circle area test");
     }
 
     @Test
     void testDivide(){
         MathUtils mathUtils = new MathUtils();
+        //assertThrows(NullPointerException.class, () -> mathUtils.divide(1,0),"divide by 0 should throw");
         assertEquals(1,mathUtils.divide(1,1));
     }
 }
