@@ -10,6 +10,22 @@ public class MathUtilsTest {
         MathUtils mathUtils = new MathUtils();
         int expected =2;
         int actual = mathUtils.add(1,1);
-        assertEquals(expected,actual);
+        //there are similar methods like assertArrayEquals and assertIterableEquals
+        //Which verifies each item in the arrays are equal in the right position and verifies each item in the iterable are equal in the corresponding
+        //positions respectively
+        assertEquals(expected,actual,"the add method should have two inputs");
+    }
+
+    @Test
+    void testCircleArea(){
+        MathUtils mathUtils = new MathUtils();
+        //assertThrows(NullPointerException.class, () -> mathUtils.divide(1,0),"divide by 0 should throw");
+        assertThrows(ArithmeticException.class, () -> mathUtils.divide(1,0),"divide by 0 should throw");
+    }
+
+    @Test
+    void testDivide(){
+        MathUtils mathUtils = new MathUtils();
+        assertEquals(1,mathUtils.divide(1,1));
     }
 }
