@@ -1,13 +1,33 @@
-<!DOCTYPE HTML>
-<html>
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-<p>Get your greeting <a href="/greeting">here</a></p>
-<p>student info here <a href="services/student/studentDetails.html">Student Info</a></p>
-<p>Create Student here <a href="services/student/studentCreation.html">Student Creation</a></p>
-<p>class info here <a href="services/class/classDetails.html">Class Info</a></p>
+<div id="sidebar-placeholder"></div> <!-- Placeholder for sidebar -->
+<div class="content">
+    <h1>Welcome to the Home Page</h1>
+    <p>This is where you can find information about the different entities:</p>
+    <ul>
+        <li>Attendance</li>
+        <li><p>Create class here <a href="services/class/classCreation.html">Class Creation</a></p></li>
+        <li>Exam</li>
+        <li>Issues</li>
+        <li>Result</li>
+        <li><p>Create student here <a href="services/student/studentCreation.html">Student Creation</a></p></li>
+        <li>Subject</li>
+        <li>Teacher</li>
+        <li>Timetable</li>
+    </ul>
+</div>
+<script src="index.js"></script>
+<script>
+    fetchSidebar('sidebar.html');
+</script>
+
 </body>
 </html>

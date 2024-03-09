@@ -1,11 +1,6 @@
-/* Basic styling */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f2f2f2;
-}
+/* classCreation.css */
 
+/* Container styles */
 .create-classroom-form {
     background-color: #fff;
     max-width: 400px;
@@ -15,36 +10,45 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-h1 {
+/* Heading styles */
+.create-classroom-form h1 {
     text-align: center;
     margin-bottom: 20px;
+    color: #333333; /* Same color as .classroomId */
 }
 
-form {
+/* Form styles */
+.create-classroom-form form {
     display: flex;
     flex-direction: column;
 }
 
-label {
+/* Label styles */
+.create-classroom-form label {
     margin-bottom: 10px;
+    display: block;
+    font-weight: bold;
+    color: #666;
 }
 
-input {
+/* Input styles */
+.create-classroom-form input {
     padding: 8px;
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-button {
+/* Button styles */
+.create-classroom-form button {
     padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
+    background-color: #4CAF50; /* Same color as button in .classDetails */
+    color: white;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px; /* Adjusted for consistency */
     cursor: pointer;
 }
 
-button:hover {
-    background-color: #0056b3;
+.create-classroom-form button:hover {
+    background-color: #45a049; /* Same hover color as button in .classDetails */
 }

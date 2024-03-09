@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Classroom</title>
     <link rel="stylesheet" href="../../styles/class/classCreation.css">
+    <link rel="stylesheet" href="../../index.css">
 </head>
 <body>
+<div id="sidebar-placeholder"></div> <!-- Placeholder for sidebar -->
 <div class="create-classroom-form">
     <h1>Create Classroom</h1>
     <form id="createClassroomForm">
@@ -25,5 +27,10 @@
     </form>
 </div>
 <script src="../../js/class/classCreation.js"></script>
+<script src="../../index.js"></script>
+<script>
+    // Include sidebar using JavaScript
+    fetchSidebar('../../sidebar.html');
+</script>
 </body>
 </html>
