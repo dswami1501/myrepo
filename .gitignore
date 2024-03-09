@@ -35,6 +35,7 @@ build/
 # Ignore compiled code
 target/
 bin/
+out/
 *.class
 *.jar
 .mvn
