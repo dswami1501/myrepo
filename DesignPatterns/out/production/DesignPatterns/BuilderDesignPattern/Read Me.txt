@@ -1,7 +1,0 @@
-Builder Design Pattern
-=======================
-
-Why do we need it?
->While creating object when object contains many attributes there can be several problems associated with it, such as:
-1.We have to pass many arguments to create object and we have to maintain order of parameters.(Related to constructor)
-2.Some parameters might be optional.(Related to constructor)

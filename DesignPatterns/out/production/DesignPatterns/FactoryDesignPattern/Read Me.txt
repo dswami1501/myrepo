@@ -1,6 +1,0 @@
-Definition -> When there is SuperClass and multiple SubClasses and
-we want to get object of SubClasses based on input and requirement.
-
-Advantages:
-1.Focus on creating objects for Interface rather than implementation.
-2.Loose coupling, more robust code.
