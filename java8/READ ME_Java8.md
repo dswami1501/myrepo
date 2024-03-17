@@ -661,6 +661,108 @@ public class EmployeeComparatorJava8 {
 ```
 
 # <u>Programs</u>
+## *CharacterOccurencesUsingStream*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+
+public class CharacterOccurencesUsingStream {
+    public static void main(String[] args) {
+        char[] chars = {'a', 'b', 'a', 'a', 'c', 'b'};
+        java8(chars);
+        java7(chars);
+    }
+
+    public static void java8(char[] ch){
+        // Using streams to count occurrences of characters
+        Map<Character, Long> charCounts = IntStream.range(0, ch.length)
+                .mapToObj(i -> ch[i])
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        // Print the character counts
+        charCounts.forEach((character, count) -> System.out.println(character + " Java8 = " + count));
+    }
+
+    public static void java7(char[] ch){
+        // Count occurrences of characters
+        Map<Character, Integer> charCounts = new HashMap<>();
+        for (char c : ch) {
+            charCounts.put(c, charCounts.getOrDefault(c, 0) + 1);
+        }
+
+        // Print the character counts
+        charCounts.forEach((character, count) -> System.out.println(character + " java7 = " + count));
+    }
+}
+```
+
+## *FindDuplicateUsingStreams*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+public class FindDuplicateUsingStreams {
+    public static void main(String[] args) {
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 2, 5, 6, 3, 7, 8, 1);
+
+        // Using streams to find duplicate elements
+        List<Integer> duplicates = numbers.stream()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .entrySet().stream()
+                .filter(entry -> entry.getValue() > 1)
+                .map(Map.Entry::getKey)
+                .collect(Collectors.toList());
+
+        // Print duplicate elements
+        duplicates.forEach(System.out::println);
+    }
+}
+```
+
+## *CountingNdPrintingVowels*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+public class CountingNdPrintingVowels {
+    public static void main(String[] args) {
+        String name = "deepak Swami";
+        System.out.println(countVowel(name));
+
+        printVowel(name);
+    }
+
+    public static long countVowel(String nme){
+        return nme.chars()
+                .mapToObj(ch -> (char)ch)
+                .filter(ch -> "aeiouAEIOU".indexOf(ch)!=-1)
+                .count();
+    }
+
+    public static void printVowel(String nam){
+        Set<Character> vowelSet =new HashSet<>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
+        nam.chars()
+                .mapToObj(ch -> (char)ch)
+                .filter(ch -> vowelSet.contains(ch))
+                .forEach(System.out::println);
+    }
+}
+```
+
 ## *DistinctElement*
 ```java
 package java8.programs;
