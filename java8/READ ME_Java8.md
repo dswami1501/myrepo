@@ -661,6 +661,156 @@ public class EmployeeComparatorJava8 {
 ```
 
 # <u>Programs</u>
+## *SumOfTwoArrays*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+
+public class SumOfTwoArrays {
+    public static void addElementsToNineJava7(int[] arr1, int[] arr2) {
+        for (int i = 0; i < arr1.length; i++) {
+            for (int j = 0; j < arr2.length; j++) {
+                if (arr1[i] + arr2[j] == 9) {
+                    System.out.println(arr1[i] + " + " + arr2[j] + " = 9");
+                }
+            }
+        }
+    }
+
+    public static void addElementsToNineJava8(int[] arr1, int[] arr2) {
+        Arrays.stream(arr1)
+                .forEach(a -> Arrays.stream(arr2)
+                        .filter(b -> a + b == 9)
+                        .forEach(b -> System.out.println(a + " + " + b + " = 9")));
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {2, 3, 4};
+        int[] arr2 = {5, 6, 3};
+
+        System.out.println("Pairs with sum 9 (Java 7):");
+        addElementsToNineJava7(arr1, arr2);
+
+        System.out.println("Pairs with sum 9 (Java 8):");
+        addElementsToNineJava8(arr1, arr2);
+    }
+}
+```
+
+## *MissingElementInArray*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+
+public class MissingElementInArray {
+    public static void main(String[] args) {
+        int[] ar ={1,4,3,5};
+        System.out.println("\nMissing Element in Java7 : "+missingElementInArray(ar));
+        System.out.println("\nMissing Element in Java8 : "+findMissingElement(ar));
+    }
+    public static int missingElementInArray(int[] ar){
+        int n = ar.length+1;
+        System.out.println("n value is: "+n);
+        int expectedSum = n*(n+1)/2;
+        int originalSum=0;
+        for(int num: ar){
+            System.out.print(num +", ");
+            originalSum = originalSum+num;
+        }
+        return expectedSum-originalSum;
+    }
+
+    public static int findMissingElement(int[] arr) {
+        int n = arr.length + 1;
+        long totalSum = n * (n + 1) / 2;
+        long arraySum = Arrays.stream(arr).asLongStream().sum();
+        return (int) (totalSum - arraySum);
+    }
+}
+```
+
+## *SecondSmallestElement*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+public class SecondSmallestElement {
+    public static int findSecondLargestJava7(int[] arr) {
+        int max = Integer.MIN_VALUE;
+        int secondMax = Integer.MIN_VALUE;
+
+        for (int num : arr) {
+            if (num > max) {
+                secondMax = max;
+                max = num;
+            } else if (num > secondMax && num != max) {
+                secondMax = num;
+            }
+        }
+        return secondMax;
+    }
+
+    public static int findSecondLargestJava8(int[] arr) {
+        return Arrays.stream(arr)
+                .distinct() // Remove duplicates
+                .boxed()    // Convert to Integer objects
+                .sorted(Comparator.reverseOrder()) // Sort in descending order
+                .limit(2)   // Limit to the first two elements
+                .skip(1)    // Skip the first element (largest)
+                .findFirst() // Find the second largest
+                .orElse(Integer.MIN_VALUE); // If not found, return MIN_VALUE
+    }
+
+    public static void main(String[] args) {
+        int[] arr = { 5, 2, 8, 7, 5, 8, 3 };
+
+        int secondLargestJava7 = findSecondLargestJava7(arr);
+        System.out.println("Second largest element (Java 7): " + secondLargestJava7);
+
+        int secondLargestJava8 = findSecondLargestJava8(arr);
+        System.out.println("Second largest element (Java 8): " + secondLargestJava8);
+    }
+}
+```
+
+## *RemovingWhiteSpaces*
+```java
+package java8.programs;
+
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+public class RemovingWhiteSpaces {
+    public static void main(String[] args) {
+        String input = "     My      name   is  Deepak         Swami    ";
+        java7(input);
+        java8(input);
+    }
+
+    public static void java7(String input){
+        // Split the input string into words
+        String[] words = input.trim().split("\\s+");
+
+        // Join the words back together with a single space between each word
+        String output = String.join(" ", words);
+
+        // Print the output string
+        System.out.println("java7 "+output);
+    }
+
+    public static void java8(String input){
+        String output = Arrays.stream(input.trim().split("\\s+"))  // trim and Split the input string into String[]
+                .collect(Collectors.joining(" ")); // Join the words back together with a single space between each word
+
+        System.out.println("java8 "+output); // Print the output string
+    }
+}
+```
+
 ## *CharacterOccurencesUsingStream*
 ```java
 package java8.programs;
