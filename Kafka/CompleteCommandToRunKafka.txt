@@ -1,0 +1,53 @@
+OpenSource Apache Kafka
+=======================
+
+Note:- You can use Offset Explorer(download from internet) to view the data
+
+Producer Consumer Flow
+========================
+1.Start ZooKeeper
+2.Start Kafka Server/Broker
+3.Create a Topic
+
+DefaultPort:
+============
+ZooKeeper: 2181
+Kafka Server/Broker: 9092
+
+Command to start ZooKeeper
+===========================
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+Command to start Kafka Server/Broker
+====================================
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+Command to create Topic
+Note: Order to keywords in command is not important after kafka-topics.bat
+=======================
+understanding command: location of kafka-topics.bat, --bootstrap-server with port or Kafka Server with port, --create is for creating a topic then here "swami-testing" is name of topic, --partitions is to specific number of partitions, --replication-factor is for cloaning of brokers
+      
+Command: .\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --create --topic swami-testing --partitions 3 --replication-factor 1
+
+Command to list all the topics
+===============================
+.\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --list 
+
+Command to describe a topic
+============================
+.\bin\windows\kafka-topics.bat --bootstrap-server localhost:9092 --describe --topic swami-testing(which is topic name)
+
+Command to Start a Producer
+============================
+.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic swami-testing
+After running this command you can send messages manually by typing into the command prompt
+
+Command for Sending bulk messages using csv file using producer
+===============================================================
+.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic swami-testing < "E:\Working Projects\myrepo\Spring-Batch\springbatch-springboot2x\src\main\resources\customers.csv"
+
+Command to Start a Consumer
+============================
+.\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic swami-testing --from-beginning
+
+
