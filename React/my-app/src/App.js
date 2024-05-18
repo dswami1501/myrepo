@@ -57,6 +57,53 @@ import { UserProvider1 } from './components/32-Context2/userContext1';
 import A1 from './components/32-Context2/A1';
 import PostList from './components/33-HttpGetRequest/PostList';
 import PostForm from './components/33-HttpGetRequest/PostForm';
+import ClassCounter from './hooksPractical/1-UseStateDemo/ClassCounter';
+import HookCounter from './hooksPractical/1-UseStateDemo/HookCounter';
+import HookCounterTwo from './hooksPractical/1-UseStateDemo/2WithPreviousState/HookCounterTwo';
+import HookCounterThree from './hooksPractical/1-UseStateDemo/3WithObject/HookCounterThree';
+import HookCounterFour from './hooksPractical/1-UseStateDemo/4WithArrays/HookCounterFour';
+// import ClassCounterOne from './hooksPractical/2-UseEffectDemo/1AfterRender/ClassCounterOne';
+// import HookCounterOne from './hooksPractical/2-UseEffectDemo/1AfterRender/HookCounterOne';
+import ClassCounterOne from './hooksPractical/2-UseEffectDemo/2ConditionallyRunEffects/ClassCounterOne';
+import HookCounterOne from './hooksPractical/2-UseEffectDemo/2ConditionallyRunEffects/HookCounterOne';
+import ClassMouse from './hooksPractical/2-UseEffectDemo/3OnlyOnce/ClassMouse';
+import HookMouse from './hooksPractical/2-UseEffectDemo/3OnlyOnce/HookMouse';
+import MouseContainer from './hooksPractical/2-UseEffectDemo/4CleanUp/MouseContainer';
+import IntervalClassCounter from './hooksPractical/2-UseEffectDemo/5IncorrectDependency/IntervalClassCounter';
+import IntervalHookCounter from './hooksPractical/2-UseEffectDemo/5IncorrectDependency/IntervalHookCounter';
+import DataFetching1 from './hooksPractical/2-UseEffectDemo/6FetchData/DataFetching1';
+import DataFetching2 from './hooksPractical/2-UseEffectDemo/6FetchData/DataFetching2';
+import DataFetching3 from './hooksPractical/2-UseEffectDemo/6FetchData/DataFetching3';
+import UserContextHooks from './hooksPractical/3-UseContextDemo/1Demo/UserContextHooks';
+import UserContextHooks1 from './hooksPractical/3-UseContextDemo/2Demo/UserContextHooks1';
+import CounterReducer from './hooksPractical/4-UserReducer/1SimpleStateAndAction/CounterReducer';
+import CounterReducer2 from './hooksPractical/4-UserReducer/2ComplexStateAndAction/CounterReducer2';
+import CounterReducer3 from './hooksPractical/4-UserReducer/3MultipleUseReducer/CounterReducer3';
+import ParentCompo from './hooksPractical/4-UserReducer/4WithUseContext/ParentCompo';
+import DataFetchingOne from './hooksPractical/5-DataFetching/DataFetchingOne';
+import DataFetchingTwo from './hooksPractical/5-DataFetching/DataFetchingTwo';
+import ParentCompono from './hooksPractical/6-UseCallBack/1NormalCode/ParentCompono';
+import ParentCompono1 from './hooksPractical/6-UseCallBack/2OptimizedCode/ParentCompono1';
+import Memo1 from './hooksPractical/7-UseMemo/Memo1';
+import Memo2 from './hooksPractical/7-UseMemo/Memo2';
+import Memo3 from './hooksPractical/7-UseMemo/Memo3';
+import Memo4 from './hooksPractical/7-UseMemo/Memo4';
+import Ref1 from './hooksPractical/8-UseRef/Ref1';
+import Ref2 from './hooksPractical/8-UseRef/Ref2';
+import HookTimer from './hooksPractical/8-UseRef/HookTimer';
+import HookTimer1 from './hooksPractical/8-UseRef/HookTimer1';
+import DocTitle1 from './hooksPractical/9-CustomHooks/DocTitle/Ex1/DocTitle1';
+import DocTitle2 from './hooksPractical/9-CustomHooks/DocTitle/Ex2/DocTitle2';
+import DocTitle3 from './hooksPractical/9-CustomHooks/DocTitle/Ex2/DocTitle3';
+import HookCounterEx1 from './hooksPractical/9-CustomHooks/counter/Ex1/HookCounterEx1';
+import HookCounterEx2 from './hooksPractical/9-CustomHooks/counter/Ex1/HookCounterEx2';
+import HookCounterEx3 from './hooksPractical/9-CustomHooks/counter/Ex2/HookCounterEx3';
+import HookCounterEx4 from './hooksPractical/9-CustomHooks/counter/Ex2/HookCounterEx4';
+import HookCounterEx5 from './hooksPractical/9-CustomHooks/counter/Ex3/HookCounterEx5';
+import HookCounterEx6 from './hooksPractical/9-CustomHooks/counter/Ex3/HookCounterEx6';
+import UserForm1 from './hooksPractical/9-CustomHooks/UserForm/Ex1/UserForm1';
+import UserForm2 from './hooksPractical/9-CustomHooks/UserForm/Ex2/UserForm2';
+
 function App() {
   return (
     <div className="App">
@@ -131,7 +178,53 @@ function App() {
       </UserProvider> */}      
         {/* <A1/> */}
         {/* <PostList/> */}
-        <PostForm/>
+        {/* <PostForm/> */}
+        {/* <ClassCounter/> */}
+        {/* <HookCounter/> */}
+        {/* <HookCounterTwo/> */}
+        {/* <HookCounterThree/> */}
+        {/* <HookCounterFour/> */}
+        {/* <ClassCounterOne/> */}
+        {/* <HookCounterOne/> */}
+        {/* <ClassCounterOne/> */}
+        {/* <HookCounterOne/> */}
+        {/* <ClassMouse/> */}
+        {/* <HookMouse/> */}
+        {/* <MouseContainer/> */}
+        {/* <IntervalClassCounter/> */}
+        {/* <IntervalHookCounter/> */}
+        {/* <DataFetching1/> */}
+        {/* <DataFetching2/> */}
+        {/* <DataFetching3/> */}
+        {/* <UserContextHooks/> */}
+        {/* <UserContextHooks1/> */}
+        {/* <CounterReducer/> */}
+        {/* <CounterReducer2/> */}
+        {/* <CounterReducer3/> */}
+        {/* <ParentCompo/> */}
+        {/* <DataFetchingOne/> */}
+        {/* <DataFetchingTwo/> */}
+        {/* <ParentCompono /> */}
+        {/* <ParentCompono1 /> */}
+        {/* <Memo1/> */}
+        {/* <Memo2/> */}
+        {/* <Memo3/> */}
+        {/* <Memo4/> */}
+        {/* <Ref1/> */}
+        {/* <Ref2/> */}
+        {/* <HookTimer/> */}
+        {/* <HookTimer1/> */}
+        {/* <DocTitle1/> */}
+        {/* <DocTitle2/> */}
+        {/* <DocTitle3/> */}
+        {/* <HookCounterEx1/> */}
+        {/* <HookCounterEx2/> */}
+        {/* <HookCounterEx3/> */}
+        {/* <HookCounterEx4/> */}
+        {/* <HookCounterEx5/> */}
+        {/* <HookCounterEx6/> */}
+        {/* <UserForm1/> */}
+        {/* <UserForm2/> */}
     </div>
   );
 }
