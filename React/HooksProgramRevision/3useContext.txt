@@ -1,0 +1,470 @@
+3. useContext
+===============
+3.1) Theme Context: Provide and consume a theme context to manage light and dark modes.
+Step 1: Create the Theme Context
+First, create a ThemeContext and a provider component.
+ThemeContext.js
+================
+import React, { createContext, useState } from 'react';
+
+export const ThemeContext = createContext();
+
+export const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState('light');
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'));
+  };
+
+  return (
+    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+      {children}
+    </ThemeContext.Provider>
+  );
+};
+
+Step 2: Create Components that Consume the Theme Context
+Next, create some components that will consume the ThemeContext.
+ThemedButton.js
+================
+import React, { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+
+const ThemedButton = () => {
+  const { theme, toggleTheme } = useContext(ThemeContext);
+
+  const buttonStyle = {
+    backgroundColor: theme === 'light' ? '#fff' : '#333',
+    color: theme === 'light' ? '#000' : '#fff',
+    border: '1px solid',
+    padding: '10px 20px',
+    cursor: 'pointer'
+  };
+
+  return (
+    <button style={buttonStyle} onClick={toggleTheme}>
+      Toggle Theme
+    </button>
+  );
+};
+
+export default ThemedButton;
+ThemedApp.js
+=============
+import React, { useContext } from 'react';
+import { ThemeContext } from './ThemeContext';
+import ThemedButton from './ThemedButton';
+
+const ThemedApp = () => {
+  const { theme } = useContext(ThemeContext);
+
+  const appStyle = {
+    backgroundColor: theme === 'light' ? '#f0f0f0' : '#121212',
+    color: theme === 'light' ? '#000' : '#fff',
+    minHeight: '100vh',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  };
+
+  return (
+    <div style={appStyle}>
+      <h1>{theme === 'light' ? 'Light Mode' : 'Dark Mode'}</h1>
+      <ThemedButton />
+    </div>
+  );
+};
+
+export default ThemedApp;
+Step 3: Use the ThemeProvider in the Application
+Finally, wrap your application in the ThemeProvider.
+
+App.js
+======
+import React from 'react';
+import { ThemeProvider } from './ThemeContext';
+import ThemedApp from './ThemedApp';
+
+const App = () => {
+  return (
+    <ThemeProvider>
+      <ThemedApp />
+    </ThemeProvider>
+  );
+};
+
+export default App;
+Full Example Structure
+=======================
+src/
+├── App.js
+├── ThemeContext.js
+├── ThemedApp.js
+└── ThemedButton.js
+This code sets up a theme context and uses it to toggle between light and dark themes in a simple React application. The ThemeProvider provides the current theme and a function to toggle the theme to any component that consumes the context. The ThemedButton component allows the user to switch themes, and the ThemedApp component displays the current theme and renders the button.
+
+3.2) Authentication: Manage user authentication state across the app.
+An example of how to manage user authentication state across a React app using useContext.
+
+Step 1: Create an Authentication Context
+// AuthContext.js
+import React, { createContext, useState, useContext } from 'react';
+
+const AuthContext = createContext();
+
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(null);
+
+  const login = (userData) => {
+    setUser(userData);
+  };
+
+  const logout = () => {
+    setUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ user, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+Step 2: Wrap Your Application with the AuthProvider
+// App.js
+import React from 'react';
+import { AuthProvider } from './AuthContext';
+import HomePage from './HomePage';
+import LoginPage from './LoginPage';
+
+function App() {
+  return (
+    <AuthProvider>
+      <HomePage />
+      <LoginPage />
+    </AuthProvider>
+  );
+}
+
+export default App;
+
+Step 3: Consume the AuthContext in Components
+HomePage Component
+// HomePage.js
+import React from 'react';
+import { useAuth } from './AuthContext';
+
+const HomePage = () => {
+  const { user, logout } = useAuth();
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+      {user ? (
+        <>
+          <p>Welcome, {user.name}!</p>
+          <button onClick={logout}>Logout</button>
+        </>
+      ) : (
+        <p>Please log in.</p>
+      )}
+    </div>
+  );
+};
+
+export default HomePage;
+
+LoginPage Component
+// LoginPage.js
+import React, { useState } from 'react';
+import { useAuth } from './AuthContext';
+
+const LoginPage = () => {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const { login } = useAuth();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Here you would usually verify the username and password
+    login({ name: username });
+  };
+
+  return (
+    <div>
+      <h1>Login Page</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Username:</label>
+          <input 
+            type="text" 
+            value={username} 
+            onChange={(e) => setUsername(e.target.value)} 
+          />
+        </div>
+        <div>
+          <label>Password:</label>
+          <input 
+            type="password" 
+            value={password} 
+            onChange={(e) => setPassword(e.target.value)} 
+          />
+        </div>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
+
+export default LoginPage;
+In this example:
+===============
+*) The AuthProvider component wraps the application and provides the authentication context to its children.
+*) The useAuth custom hook is used to access the authentication context in any component.
+*) The HomePage component displays user information and a logout button if the user is logged in.
+*) The LoginPage component provides a form for logging in, updating the authentication state when the form is submitted.
+
+3.3) Language: Use context to provide and consume the current language or locale setting.
+Step 1: Create a Context
+First, create a context to hold the language state and a provider component to wrap your application.
+// LanguageContext.js
+import React, { createContext, useState } from 'react';
+
+const LanguageContext = createContext();
+
+const LanguageProvider = ({ children }) => {
+    const [language, setLanguage] = useState('en');
+
+    const switchLanguage = (lang) => {
+        setLanguage(lang);
+    };
+
+    return (
+        <LanguageContext.Provider value={{ language, switchLanguage }}>
+            {children}
+        </LanguageContext.Provider>
+    );
+};
+
+export { LanguageContext, LanguageProvider };
+
+Step 2: Use the Context in a Component
+Next, use the useContext hook to consume the language context in a component.
+// LanguageSwitcher.js
+import React, { useContext } from 'react';
+import { LanguageContext } from './LanguageContext';
+
+const LanguageSwitcher = () => {
+    const { language, switchLanguage } = useContext(LanguageContext);
+
+    return (
+        <div>
+            <p>Current Language: {language}</p>
+            <button onClick={() => switchLanguage('en')}>English</button>
+            <button onClick={() => switchLanguage('es')}>Spanish</button>
+        </div>
+    );
+};
+
+export default LanguageSwitcher;
+
+Step 3: Wrap Your Application with the Provider
+Finally, wrap your application with the LanguageProvider so that the context is available throughout your app.
+// App.js
+import React from 'react';
+import { LanguageProvider } from './LanguageContext';
+import LanguageSwitcher from './LanguageSwitcher';
+
+const App = () => {
+    return (
+        <LanguageProvider>
+            <LanguageSwitcher />
+            {/* Other components can also consume the LanguageContext */}
+        </LanguageProvider>
+    );
+};
+
+export default App;
+This setup provides a simple and effective way to manage and consume the current language setting using useContext in a React application.
+
+3.4) User Info: Share user information across different components.
+Step 1: Create a Context
+// UserContext.js
+import React, { createContext, useState } from 'react';
+
+const UserContext = createContext();
+
+export const UserProvider = ({ children }) => {
+    const [user, setUser] = useState({ name: 'John Doe', email: 'john.doe@example.com' });
+
+    return (
+        <UserContext.Provider value={{ user, setUser }}>
+            {children}
+        </UserContext.Provider>
+    );
+};
+
+export default UserContext;
+
+Step 2: Use the Context in a Component
+// UserProfile.js
+import React, { useContext } from 'react';
+import UserContext from './UserContext';
+
+const UserProfile = () => {
+    const { user } = useContext(UserContext);
+
+    return (
+        <div>
+            <h1>User Profile</h1>
+            <p>Name: {user.name}</p>
+            <p>Email: {user.email}</p>
+        </div>
+    );
+};
+
+export default UserProfile;
+
+Step 3: Update User Information in Another Component
+// UpdateUser.js
+import React, { useContext } from 'react';
+import UserContext from './UserContext';
+
+const UpdateUser = () => {
+    const { user, setUser } = useContext(UserContext);
+
+    const updateName = () => {
+        setUser({ ...user, name: 'Jane Doe' });
+    };
+
+    return (
+        <div>
+            <h1>Update User</h1>
+            <button onClick={updateName}>Change Name to Jane Doe</button>
+        </div>
+    );
+};
+
+export default UpdateUser;
+
+Step 4: Bring It All Together
+// App.js
+import React from 'react';
+import { UserProvider } from './UserContext';
+import UserProfile from './UserProfile';
+import UpdateUser from './UpdateUser';
+
+const App = () => {
+    return (
+        <UserProvider>
+            <UserProfile />
+            <UpdateUser />
+        </UserProvider>
+    );
+};
+
+export default App;
+
+Explanation
+============
+*) UserContext.js: Defines a context for user information and provides it using UserProvider.
+*) UserProfile.js: Consumes the user context to display user information.
+*) UpdateUser.js: Consumes the user context to update the user's name.
+*)App.js: Wraps the components that need access to the user context with UserProvider.
+This example demonstrates how to use useContext to share and update user information across different components in a React application.
+
+3.5) Notifications: Manage and display notifications across the app using context.
+1. Create the Notification Context
+First, create a context for the notifications:
+// NotificationContext.js
+import React, { createContext, useState, useContext } from 'react';
+
+// Create the context
+const NotificationContext = createContext();
+
+// Custom hook to use the notification context
+export const useNotifications = () => useContext(NotificationContext);
+
+// Notification provider component
+export const NotificationProvider = ({ children }) => {
+  const [notifications, setNotifications] = useState([]);
+
+  const addNotification = (message) => {
+    setNotifications([...notifications, { id: Date.now(), message }]);
+  };
+
+  const removeNotification = (id) => {
+    setNotifications(notifications.filter((notification) => notification.id !== id));
+  };
+
+  return (
+    <NotificationContext.Provider value={{ notifications, addNotification, removeNotification }}>
+      {children}
+    </NotificationContext.Provider>
+  );
+};
+
+2. Create a Notification Component
+Next, create a component to display notifications:
+// NotificationList.js
+import React from 'react';
+import { useNotifications } from './NotificationContext';
+
+const NotificationList = () => {
+  const { notifications, removeNotification } = useNotifications();
+
+  return (
+    <div className="notification-list">
+      {notifications.map((notification) => (
+        <div key={notification.id} className="notification">
+          {notification.message}
+          <button onClick={() => removeNotification(notification.id)}>Dismiss</button>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+export default NotificationList;
+
+3. Use the Notification Context in Your App
+Wrap your app with the NotificationProvider and use the addNotification function where needed:
+// App.js
+import React from 'react';
+import { NotificationProvider, useNotifications } from './NotificationContext';
+import NotificationList from './NotificationList';
+
+const App = () => {
+  return (
+    <NotificationProvider>
+      <div className="App">
+        <NotificationButton />
+        <NotificationList />
+      </div>
+    </NotificationProvider>
+  );
+};
+
+// Component to trigger notifications
+const NotificationButton = () => {
+  const { addNotification } = useNotifications();
+
+  return (
+    <button onClick={() => addNotification('New notification!')}>
+      Add Notification
+    </button>
+  );
+};
+
+export default App;
+
+Summary
+=========
+*) NotificationContext.js: Defines the context, provider, and custom hook for notifications.
+*) NotificationList.js: A component that consumes the context to display notifications.
+*) App.js: Wraps the app in the NotificationProvider and uses the addNotification function to add notifications

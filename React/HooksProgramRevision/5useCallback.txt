@@ -1,0 +1,266 @@
+5. useCallback
+===============
+5.1) Memoized Event Handlers: Prevent unnecessary re-renders by memoizing event handler functions.
+import React, { useState, useCallback } from 'react';
+
+// Child component that receives a memoized event handler
+const Child = React.memo(({ onClick }) => {
+  console.log('Child component rendered');
+  return <button onClick={onClick}>Click Me</button>;
+});
+
+const Parent = () => {
+  const [count, setCount] = useState(0);
+
+  // Memoized event handler
+  const handleClick = useCallback(() => {
+    console.log('Button clicked');
+  }, []);
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <Child onClick={handleClick} />
+    </div>
+  );
+};
+
+export default Parent;
+Explanation:
+=============
+i) Child Component: The Child component is wrapped with React.memo to prevent re-renders unless its props change. It only re-renders if the onClick prop changes.
+
+ii) Parent Component:
+
+*) handleClick is memoized using useCallback. It will only be recreated if its dependencies change (which, in this case, there are none).
+*) When the Increment Count button is clicked, it updates the count state, which triggers a re-render of the Parent component.
+*) Since handleClick is memoized, the Child component will not re-render unless the handleClick function reference changes. 
+   In this case, it does not change, so Child will not re-render when count changes.
+By using useCallback, the handleClick function retains the same reference between renders, which helps to avoid unnecessary re-renders of the Child component
+
+5.2) Changing Input: Memoize a function based on changing inputs.
+Scenario: Filter a List of Items
+We have a list of fruits, and we want to filter this list based on the user's search input. We'll use useCallback to memoize the filter function so that it only gets re-created when the search input changes.
+
+import React, { useState, useCallback } from 'react';
+
+const FruitList = () => {
+  const [search, setSearch] = useState('');
+  const fruits = ['Apple', 'Banana', 'Cherry', 'Date', 'Elderberry', 'Fig', 'Grape'];
+
+  // Memoize the filter function using useCallback
+  const filteredFruits = useCallback(() => {
+    return fruits.filter(fruit =>
+      fruit.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [search]);
+
+  return (
+    <div>
+      <h1>Fruit List</h1>
+      <input
+        type="text"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        placeholder="Search for a fruit..."
+      />
+      <ul>
+        {filteredFruits().map((fruit, index) => (
+          <li key={index}>{fruit}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default FruitList;
+Explanation
+===============
+*) State Management: We use useState to manage the search input state.
+*) Memoization with useCallback: The filteredFruits function is memoized using useCallback, so it only gets re-created when the search input changes. 
+   This helps to optimize performance by avoiding unnecessary re-renders.
+*) Filtering Logic: The filteredFruits function filters the list of fruits based on the search input, converting both the fruit names and the search input to lowercase for case-insensitive matching.
+*) Rendering: The component renders an input field for the search and a list of filtered fruits.
+This simple and user-friendly example showcases how useCallback can be used to optimize performance by memoizing a function based on changing inputs.
+
+5.3) Form Submission: Use a memoized callback to handle form submission and avoid re-creating the function.
+a simple example using useCallback to handle form submission in a React component. This example demonstrates how to use useCallback to memoize the submission handler function to avoid re-creating it on each render.
+
+import React, { useState, useCallback } from 'react';
+
+const SimpleForm = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleSubmit = useCallback((event) => {
+    event.preventDefault();
+    console.log('Form submitted:', { name, email });
+    // You can also send the data to an API or handle it as needed
+  }, [name, email]);
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="name">Name:</label>
+        <input
+          type="text"
+          id="name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="email">Email:</label>
+        <input
+          type="email"
+          id="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default SimpleForm;
+Explanation
+============
+i) State Management: name and email states are managed using useState.
+ii) useCallback:
+*) handleSubmit is wrapped in useCallback to ensure the function is memoized and not recreated on each render.
+*) The dependencies array [name, email] ensures the function is updated only when name or email changes.
+iii) Form Submission:
+*) handleSubmit prevents the default form submission action and logs the form data.
+*) This example is straightforward and demonstrates the use of useCallback in the context of a form submission, which can be a common interview question scenario.
+
+5.4) List Filtering: Memoize a function that filters a list based on user input.
+import React, { useState, useCallback, useMemo } from 'react';
+
+const ListFiltering = () => {
+  const [query, setQuery] = useState('');
+  const [items] = useState(['apple', 'banana', 'cherry', 'date', 'elderberry', 'fig', 'grape']);
+
+  const handleInputChange = (e) => {
+    setQuery(e.target.value);
+  };
+
+  const filterItems = useCallback((items, query) => {
+    return items.filter((item) => item.toLowerCase().includes(query.toLowerCase()));
+  }, []);
+
+  const filteredItems = useMemo(() => filterItems(items, query), [items, query, filterItems]);
+
+  return (
+    <div>
+      <input type="text" value={query} onChange={handleInputChange} placeholder="Search..." />
+      <ul>
+        {filteredItems.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ListFiltering;
+
+5.5) Debounced Input: Implement a debounced search input using a memoized callback.
+import React, { useState, useCallback } from 'react';
+
+const DebouncedInput = () => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [debouncedTerm, setDebouncedTerm] = useState('');
+
+  const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+  const handleSearch = useCallback(
+    debounce((term) => {
+      setDebouncedTerm(term);
+      console.log('Searching for:', term);
+    }, 500),
+    [] // The empty dependency array ensures the callback is created only once
+  );
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+    handleSearch(event.target.value);
+  };
+
+  return (
+    <div>
+      <input
+        type="text"
+        value={searchTerm}
+        onChange={handleChange}
+        placeholder="Search..."
+      />
+      <p>Search term: {debouncedTerm}</p>
+    </div>
+  );
+};
+
+export default DebouncedInput;
+Explanation
+============
+i)State Management: We have two pieces of state: searchTerm for the current input value and debouncedTerm for the debounced value.
+ii)Debounce Function: A helper function debounce takes a function func and a delay delay, and returns a new function that delays the execution of func until after delay milliseconds have passed since the last time it was invoked.
+iii)useCallback: We use useCallback to memoize the debounced version of the handleSearch function. This ensures that the debounce timer is not reset on every render.
+iv)handleChange: This function updates the searchTerm state and calls the debounced handleSearch function with the current input value.
+v)Rendering: An input field allows the user to type a search term, and the debounced search term is displayed below it.
+This example demonstrates how to use useCallback to optimize performance by avoiding unnecessary re-creations of the debounced function.
+
+Q)Explain this function:
+Ans)const debounce = (func, delay) => {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func(...args);
+      }, delay);
+    };
+  };
+
+The debounce function is a utility that helps delay the execution of a given function (func) until after a specified amount of time (delay) has passed since the last time the function was invoked. Here's a breakdown of how it works:
+
+Function Breakdown
+===================
+const debounce = (func, delay) => {
+  let timer; // A variable to store the timeout ID
+
+  return (...args) => {
+    clearTimeout(timer); // Clears the previous timeout, if any
+
+    // Sets a new timeout
+    timer = setTimeout(() => {
+      func(...args); // Calls the function with the provided arguments
+    }, delay); // Executes after the specified delay
+  };
+};
+Detailed Explanation
+Arguments:
+
+func: The function that you want to debounce.
+delay: The amount of time (in milliseconds) to wait before executing func.
+Timer Variable:
+
+let timer; declares a variable timer that will hold the identifier of the timeout.
+Returning a New Function:
+
+The debounce function returns a new function that takes any number of arguments (...args).
+Clearing the Timeout:
+
+clearTimeout(timer); is called to clear any existing timeout. This prevents the previous func call from being executed if the new function is invoked again within the delay period.
+Setting a New Timeout:
+
+timer = setTimeout(() => { func(...args); }, delay); sets a new timeout that will execute func after the specified delay.
+func(...args); ensures that the function is called with the arguments it received.

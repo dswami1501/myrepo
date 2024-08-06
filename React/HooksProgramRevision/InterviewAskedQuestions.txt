@@ -1,0 +1,67 @@
+[5:00 PM] Sunil DR
+API: https://apipheny.io/free-api/
+
+React: https://codesandbox.io/s/react-new
+
+Java: https://coderpad.io/languages/java/spring/
+Free API - 90+ Public APIs For Testing [No Key] - Apipheny
+Humongous list of free APIs for finance, sports travel, data, & more. Open, public REST APIs for testing without a key.
+[5:04 PM] Sunil DR
+array1=[1,1,1]
+array2=[2,2,2]
+array3=[3,3,3]
+
+API:https://catfact.ninja/fact
+
+Q1)I was given these arrays "array1=[1,1,1]
+array2=[2,2,2]
+array3=[3,3,3] and given this api "https://catfact.ninja/fact" "
+in the react js interview and asked probably to find the average of these arrays and I have to render the api's output based on the output of the arrays say the output is 2 then I have to render it 2 times.
+Does this question sounds right to you or how can this question be formed ?
+
+Solution)
+const Test = () => {
+    const array1 = [1, 1, 1];
+  const array2 = [2, 2, 2];
+  const array3 = [3, 3, 3];
+
+  // Function to calculate the average
+  const calculateAverage = () => {
+    const allArrays = [...array1, ...array2, ...array3];
+    const totalSum = allArrays.reduce((acc, val) => acc + val, 0);
+    return totalSum / allArrays.length;
+  };
+
+  const average = calculateAverage();
+  const [facts, setFacts] = useState([]);
+
+  // Function to fetch facts from API
+  const fetchFacts = async (count) => {
+    let fetchedFacts = [];
+    for (let i = 0; i < count; i++) {
+      const response = await fetch('https://catfact.ninja/fact');
+      const data = await response.json();
+      fetchedFacts.push(data.fact);
+    }
+    setFacts(fetchedFacts);
+  };
+
+  // Fetch facts when component mounts
+  useEffect(() => {
+    fetchFacts(average);
+  }, [average]);
+
+  return (
+    <div>
+      <h1>Cat Facts</h1>
+      <p>Average: {average}</p>
+      <ul>
+        {facts.map((fact, index) => (
+          <li key={index}>{fact}</li>
+        ))}
+      </ul>
+    </div>
+  );
+  };
+
+export default Test

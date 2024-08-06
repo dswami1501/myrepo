@@ -1,0 +1,556 @@
+Scenario 1: Setting Up Redux Toolkit in a React Project
+Task: Set up Redux Toolkit in a React project. Create a basic slice and integrate it with a React component.
+
+Details:
+
+Initialize a new React project.
+Install Redux Toolkit and React-Redux.
+Create a slice with a simple state and a reducer to update that state.
+Configure the store using configureStore.
+Connect a React component to the Redux store and display the state.
+Ans)To set up Redux Toolkit in a React project, follow these steps:
+
+Step 1: Initialize a New React Project
+First, create a new React project using Create React App.
+
+sh
+Copy code
+npx create-react-app my-redux-app
+cd my-redux-app
+Step 2: Install Redux Toolkit and React-Redux
+Install the necessary packages.
+
+sh
+Copy code
+npm install @reduxjs/toolkit react-redux
+Step 3: Create a Slice
+Create a slice with a simple state and a reducer to update that state. For this example, let's create a counter slice.
+
+Create a folder called features inside the src folder.
+Inside the features folder, create a file called counterSlice.js.
+js
+Copy code
+// src/features/counterSlice.js
+
+import { createSlice } from '@reduxjs/toolkit';
+
+export const counterSlice = createSlice({
+  name: 'counter',
+  initialState: {
+    value: 0,
+  },
+  reducers: {
+    increment: (state) => {
+      state.value += 1;
+    },
+    decrement: (state) => {
+      state.value -= 1;
+    },
+  },
+});
+
+export const { increment, decrement } = counterSlice.actions;
+
+export default counterSlice.reducer;
+Step 4: Configure the Store
+Configure the Redux store using configureStore.
+
+Create a file called store.js in the src folder.
+js
+Copy code
+// src/store.js
+
+import { configureStore } from '@reduxjs/toolkit';
+import counterReducer from './features/counterSlice';
+
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+});
+export default store
+
+Wrap your app with the Redux Provider and pass the store.
+js
+Copy code
+// src/index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from './store';
+import App from './App';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+Step 5: Connect a React Component to the Redux Store
+Create a component to display and interact with the state.
+
+Create a new file called Counter.js in the src folder.
+js
+Copy code
+// src/Counter.js
+
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement } from './features/counterSlice';
+
+const Counter = () => {
+  const count = useSelector((state) => state.counter.value);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <h1>{count}</h1>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
+    </div>
+  );
+};
+
+export default Counter;
+Update App.js to include the Counter component.
+js
+Copy code
+// src/App.js
+
+import React from 'react';
+import Counter from './Counter';
+
+function App() {
+  return (
+    <div className="App">
+      <Counter />
+    </div>
+  );
+}
+
+export default App;
+
+Scenario 2: Asynchronous Actions with createAsyncThunk
+Task: Fetch data from an API using createAsyncThunk and display it in a React component.
+
+Details:
+
+Create a slice with a thunk to fetch data from a public API (e.g., fetching a list of users).
+Handle loading, success, and error states in the slice.
+Use the thunk in a React component to fetch data when the component mounts.
+Display the data or appropriate loading/error messages based on the state.
+Ans)1. Create the Redux Slice with Thunk
+First, define your slice with createAsyncThunk to handle asynchronous data fetching.
+
+javascript
+Copy code
+// features/users/usersSlice.js
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import axios from 'axios';
+
+export const fetchUsers = createAsyncThunk(
+  'users/fetchUsers',
+  async () => {
+    const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+    return response.data;
+  }
+);
+
+const usersSlice = createSlice({
+  name: 'users',
+  initialState: {
+    users: [],
+    loading: false,
+    error: null,
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchUsers.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchUsers.fulfilled, (state, action) => {
+        state.loading = false;
+        state.users = action.payload;
+      })
+      .addCase(fetchUsers.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
+      });
+  },
+});
+
+export default usersSlice.reducer;
+2. Configure the Store
+Set up your Redux store to include the users slice.
+
+javascript
+Copy code
+// app/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import usersReducer from '../features/users/usersSlice';
+
+export const store = configureStore({
+  reducer: {
+    users: usersReducer,
+  },
+});
+3. Create the React Component
+Use the thunk in a React component to fetch data when the component mounts, and display the data or appropriate loading/error messages based on the state.
+
+javascript
+Copy code
+// components/UsersList.js
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUsers } from '../features/users/usersSlice';
+
+const UsersList = () => {
+  const dispatch = useDispatch();
+  const { users, loading, error } = useSelector((state) => state.users);
+
+  useEffect(() => {
+    dispatch(fetchUsers());
+  }, [dispatch]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <div>
+      <h1>Users List</h1>
+      <ul>
+        {users.map((user) => (
+          <li key={user.id}>{user.name}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default UsersList;
+4. Use the Component in Your App
+Finally, use the UsersList component in your main App component.
+
+javascript
+Copy code
+// App.js
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import UsersList from './components/UsersList';
+
+function App() {
+  return (
+    <Provider store={store}>
+      <div className="App">
+        <UsersList />
+      </div>
+    </Provider>
+  );
+}
+
+export default App;
+This setup will allow your application to fetch data from a public API using createAsyncThunk, manage loading, success, and error states in the slice, and display the data or appropriate messages in the React component.
+
+Scenario 3: Using RTK Query for Data Fetching
+Task: Use RTK Query to fetch and cache data from an API.
+
+Details:
+
+Set up RTK Query in a Redux store.
+Define an API slice with endpoints for fetching data.
+Create a React component that uses the useQuery hook to fetch and display data from the API.
+Implement caching and refetching logic as needed.
+Ans) Pending
+
+Scenario 4: Advanced State Management with createSlice
+Task: Create a complex slice with multiple reducers and selectors.
+
+Details:
+
+Create a slice for managing a to-do list, with actions for adding, updating, and deleting to-do items.
+Implement selectors to get specific parts of the state, such as completed and incomplete to-dos.
+Connect the slice to a React component, allowing users to add, update, and delete to-dos.
+Use selectors in the component to display different views of the to-do list.
+Ans)Step 1: Create the Slice
+javascript
+Copy code
+// features/todo/todoSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
+  todos: [],
+};
+
+const todoSlice = createSlice({
+  name: 'todo',
+  initialState,
+  reducers: {
+    addTodo: (state, action) => {
+      state.todos.push(action.payload);
+    },
+    updateTodo: (state, action) => {
+      const { id, text, completed } = action.payload;
+      const existingTodo = state.todos.find(todo => todo.id === id);
+      if (existingTodo) {
+        existingTodo.text = text;
+        existingTodo.completed = completed;
+      }
+    },
+    deleteTodo: (state, action) => {
+      const id = action.payload;
+      state.todos = state.todos.filter(todo => todo.id !== id);
+    }
+  }
+});
+
+export const { addTodo, updateTodo, deleteTodo } = todoSlice.actions;
+export default todoSlice.reducer;
+Step 2: Implement Selectors
+javascript
+Copy code
+// features/todo/todoSelectors.js
+import { createSelector } from '@reduxjs/toolkit';
+
+export const selectTodos = state => state.todo.todos;
+
+export const selectCompletedTodos = createSelector(
+  [selectTodos],
+  todos => todos.filter(todo => todo.completed)
+);
+
+export const selectIncompleteTodos = createSelector(
+  [selectTodos],
+  todos => todos.filter(todo => !todo.completed)
+);
+Step 3: Connect the Slice to the Store
+javascript
+Copy code
+// app/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import todoReducer from '../features/todo/todoSlice';
+
+const store = configureStore({
+  reducer: {
+    todo: todoReducer,
+  },
+});
+export default store
+
+Step 4: Create the React Component
+javascript
+Copy code
+// components/TodoList.js
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addTodo, updateTodo, deleteTodo } from '../features/todo/todoSlice';
+import { selectCompletedTodos, selectIncompleteTodos } from '../features/todo/todoSelectors';
+
+const TodoList = () => {
+  const dispatch = useDispatch();
+  const completedTodos = useSelector(selectCompletedTodos);
+  const incompleteTodos = useSelector(selectIncompleteTodos);
+
+  const [newTodo, setNewTodo] = useState('');
+
+  const handleAddTodo = () => {
+    dispatch(addTodo({
+      id: Date.now(),
+      text: newTodo,
+      completed: false,
+    }));
+    setNewTodo('');
+  };
+
+  const handleUpdateTodo = (id, text, completed) => {
+    dispatch(updateTodo({
+      id,
+      text,
+      completed,
+    }));
+  };
+
+  const handleDeleteTodo = (id) => {
+    dispatch(deleteTodo(id));
+  };
+
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <input
+        type="text"
+        value={newTodo}
+        onChange={(e) => setNewTodo(e.target.value)}
+      />
+      <button onClick={handleAddTodo}>Add Todo</button>
+      
+      <h2>Incomplete Todos</h2>
+      <ul>
+        {incompleteTodos.map(todo => (
+          <li key={todo.id}>
+            <span>{todo.text}</span>
+            <button onClick={() => handleUpdateTodo(todo.id, todo.text, true)}>Complete</button>
+            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+
+      <h2>Completed Todos</h2>
+      <ul>
+        {completedTodos.map(todo => (
+          <li key={todo.id}>
+            <span>{todo.text}</span>
+            <button onClick={() => handleUpdateTodo(todo.id, todo.text, false)}>Undo</button>
+            <button onClick={() => handleDeleteTodo(todo.id)}>Delete</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TodoList;
+Step 5: Use the Component in Your App
+javascript
+Copy code
+// App.js
+import React from 'react';
+import { Provider } from 'react-redux';
+import { store } from './app/store';
+import TodoList from './components/TodoList';
+
+function App() {
+  return (
+    <Provider store={store}>
+      <TodoList />
+    </Provider>
+  );
+}
+
+export default App;
+Summary
+Slice: Created with createSlice, managing the state and actions for the to-do list.
+Selectors: Implemented using createSelector to filter completed and incomplete to-dos.
+Store: Configured with the to-do reducer.
+Component: Connected to the Redux store, allowing users to add, update, and delete to-dos, and using selectors to display different views of the to-do list.
+
+Scenario 5: Middleware and Custom Middleware in Redux Toolkit
+Task: Add custom middleware to log actions and state changes.
+
+Details:
+
+Create a custom middleware function to log every dispatched action and the resulting state.
+Integrate this middleware into the Redux store configuration.
+Create a simple slice with actions that modify the state.
+Dispatch actions from a React component and verify that the middleware logs the actions and state changes correctly.
+Ans)To add custom middleware in Redux Toolkit to log actions and state changes, follow these steps:
+
+Create the custom middleware function:
+
+This middleware will log each dispatched action and the state before and after the action is processed.
+Integrate the middleware into the Redux store configuration:
+
+Use the configureStore function from Redux Toolkit to include your custom middleware along with any default middleware.
+Create a simple slice with actions that modify the state:
+
+Use the createSlice function to define a slice of the state and the actions that can modify it.
+Dispatch actions from a React component and verify the middleware logs:
+
+Create a React component that dispatches actions from the slice and check the console logs to verify that the middleware works as expected.
+Here's how you can achieve this:
+
+Step 1: Create the Custom Middleware
+javascript
+Copy code
+// src/middleware/logger.js
+const loggerMiddleware = storeAPI => next => action => {
+  console.log('Dispatching action:', action);
+  console.log('State before action:', storeAPI.getState());
+  const result = next(action);
+  console.log('State after action:', storeAPI.getState());
+  return result;
+};
+
+export default loggerMiddleware;
+Step 2: Configure the Redux Store
+javascript
+Copy code
+// src/store.js
+import { configureStore } from '@reduxjs/toolkit';
+import loggerMiddleware from './middleware/logger';
+import counterReducer from './features/counter/counterSlice';
+
+const store = configureStore({
+  reducer: {
+    counter: counterReducer,
+  },
+  middleware: getDefaultMiddleware => getDefaultMiddleware().concat(loggerMiddleware),
+});
+
+export default store;
+Step 3: Create a Simple Slice
+javascript
+Copy code
+// src/features/counter/counterSlice.js
+import { createSlice } from '@reduxjs/toolkit';
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState: 0,
+  reducers: {
+    increment: state => state + 1,
+    decrement: state => state - 1,
+  },
+});
+
+export const { increment, decrement } = counterSlice.actions;
+export default counterSlice.reducer;
+Step 4: Dispatch Actions from a React Component
+javascript
+Copy code
+// src/App.js
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement } from './features/counter/counterSlice';
+
+function App() {
+  const count = useSelector(state => state.counter);
+  const dispatch = useDispatch();
+
+  return (
+    <div>
+      <h1>Counter: {count}</h1>
+      <button onClick={() => dispatch(increment())}>Increment</button>
+      <button onClick={() => dispatch(decrement())}>Decrement</button>
+    </div>
+  );
+}
+
+export default App;
+Step 5: Set Up the Provider
+javascript
+Copy code
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import App from './App';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+Verification
+When you run your application and click the Increment or Decrement buttons, you should see logs in the console like this:
+
+plaintext
+Copy code
+Dispatching action: {type: "counter/increment"}
+State before action: 0
+State after action: 1
+This setup demonstrates how to create and integrate custom middleware in Redux Toolkit to log actions and state changes.

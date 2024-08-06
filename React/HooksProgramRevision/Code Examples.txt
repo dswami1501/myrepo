@@ -1,0 +1,92 @@
+Code Examples
+==============
+Q1)Example of a simple custom Hook. Why do we need custom Hook?
+Ans)A Custom Hook is a stateful function that uses other react built-in hooks (e.g. useState, useCallback etc.) that can wrap around the stateful logic that you wanted to gather in one place and avoid copying and pasting the same logic in multiple components.
+Consider the increment/decriment custom hook:
+const useCounter = () => {
+  const [counter, setCounter] = useState(0);
+
+  return {
+    counter, // counter value
+    increment: () => setCounter(counter + 1), // function 1
+    decrement: () => setCounter(counter - 1) // function 2
+  };
+};
+and then in your component you can use it as follows:
+const Component = () => {
+  const { counter, increment, decrement } = useCounter();
+
+  return (
+    <div>
+      <span onClick={decrement}>-</span>
+      <span style={{ padding: "10px" }}>{counter}</span>
+      <span onClick={increment}>+</span>
+    </div>
+  );
+}
+
+Q2)Provide a good example of using UseCallback hook in React.
+Ans)The useCallback hook is used to memoize callback functions so that they don't get recreated on every render. This is particularly useful when passing callbacks to child components that are optimized with React.memo or when using the callback in performance-critical situations.
+
+Here’s a practical example demonstrating how to use useCallback to prevent unnecessary re-renders of a child component:
+
+Example: Memoizing Callbacks with useCallback
+Scenario: You have a parent component that passes a callback function to a child component. The child component is optimized with React.memo to avoid unnecessary re-renders. By using useCallback, you ensure that the function reference remains stable between renders, preventing the child component from re-rendering unless the function’s dependencies change.
+
+Parent Component:
+
+jsx
+Copy code
+import React, { useState, useCallback } from 'react';
+import ChildComponent from './ChildComponent'; // Assume this is a memoized component
+
+function ParentComponent() {
+  const [count, setCount] = useState(0);
+
+  // Memoize the callback function
+  const handleClick = useCallback(() => {
+    console.log('Button clicked');
+  }, []); // Empty dependency array means handleClick will not change
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Increment Count</button>
+      <ChildComponent onClick={handleClick} />
+    </div>
+  );
+}
+
+export default ParentComponent;
+Child Component (Optimized with React.memo):
+
+jsx
+Copy code
+import React from 'react';
+
+const ChildComponent = React.memo(({ onClick }) => {
+  console.log('ChildComponent rendered');
+
+  return (
+    <button onClick={onClick}>Click me</button>
+  );
+});
+
+export default ChildComponent;
+How It Works
+Memoizing the Callback:
+
+In the ParentComponent, the handleClick function is memoized using useCallback. This ensures that handleClick retains the same reference across re-renders unless its dependencies change.
+Optimized Child Component:
+
+The ChildComponent is wrapped with React.memo, which means it will only re-render if its props change. Since handleClick is memoized and has a stable reference, the ChildComponent won’t re-render unnecessarily when count in the parent changes.
+Console Log Demonstration:
+
+The console.log statement inside the ChildComponent will only log when the ChildComponent actually re-renders. You’ll see it log only when the handleClick function reference changes (i.e., not on every re-render of the ParentComponent).
+Summary
+useCallback is used to memoize callback functions to avoid creating a new function reference on every render.
+This helps prevent unnecessary re-renders of child components that depend on stable callback references.
+React.memo can be used to optimize child components by avoiding re-renders when props (including memoized callbacks) don’t change.
+Using useCallback effectively in combination with React.memo can lead to more efficient rendering and improved performance in React applications.
+
+Q3)

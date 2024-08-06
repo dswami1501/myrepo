@@ -1,0 +1,224 @@
+6. useMemo
+===========
+6.1) Expensive Calculations: Optimize performance by memoizing results of expensive calculations.
+import React, { useState, useMemo } from 'react';
+
+function ExpensiveComponent() {
+  const [number, setNumber] = useState(0);
+  const [showResult, setShowResult] = useState(true);
+
+  // Function that performs an expensive calculation
+  const calculateExpensiveResult = (num) => {
+    console.log('Calculating...');
+    let result = 0;
+    for (let i = 0; i < 1000000000; i++) {
+      result += num;
+    }
+    return result;
+  };
+
+  // Memoized result of the expensive calculation
+  const expensiveResult = useMemo(() => calculateExpensiveResult(number), [number]);
+
+  return (
+    <div>
+      <h1>Expensive Calculation</h1>
+      <input
+        type="number"
+        value={number}
+        onChange={(e) => setNumber(parseInt(e.target.value, 10))}
+      />
+      <button onClick={() => setShowResult(!showResult)}>
+        Toggle Result
+      </button>
+      {showResult && <p>Expensive Result: {expensiveResult}</p>}
+    </div>
+  );
+}
+
+export default ExpensiveComponent;
+Explanation:
+==============
+*) calculateExpensiveResult: A function that simulates an expensive calculation by performing a large number of operations.
+*) useMemo: Used to memoize the result of calculateExpensiveResult. The calculation is only re-run when number changes.
+*) expensiveResult: The memoized value which is recalculated only when the number changes, preventing unnecessary recalculations.
+
+6.2) Filtered Data: Memoize a list of filtered items based on search criteria.
+import React, { useState, useMemo } from 'react';
+
+const ItemList = () => {
+  const [items, setItems] = useState([
+    'Apple',
+    'Banana',
+    'Cherry',
+    'Date',
+    'Fig',
+    'Grape'
+  ]);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  // Memoize the filtered items
+  const filteredItems = useMemo(() => {
+    console.log('Filtering items...');
+    return items.filter(item =>
+      item.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }, [searchTerm, items]); // Dependencies: searchTerm and items
+
+  return (
+    <div>
+      <input
+        type="text"
+        placeholder="Search..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+      <ul>
+        {filteredItems.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ItemList;
+Explanation:
+============
+i) State Management:
+*) items holds the list of items.
+*) searchTerm tracks the user's input for filtering.
+ii) Filtering with useMemo:
+*) filteredItems is computed using useMemo to ensure the filtering logic is only recalculated when searchTerm or items change.
+*) The console.log statement helps illustrate when filtering is happening.
+iii) Rendering:
+*) An input field updates searchTerm as the user types.
+*) The filtered items are displayed in a list.
+This code ensures that the filtering operation is optimized and only recalculates when necessary, improving performance especially with larger datasets
+
+6.3) Derived State: Compute derived state values that depend on multiple state variables.
+Scenario
+You have a component that tracks two state variables: a and b. You want to compute the sum of these two values and display it. Since the sum calculation is a simple arithmetic operation, it’s not expensive, but this example demonstrates how to use useMemo to prevent unnecessary recalculations.
+
+import React, { useState, useMemo } from 'react';
+
+function SumCalculator() {
+  const [a, setA] = useState(0);
+  const [b, setB] = useState(0);
+
+  // Compute derived state using useMemo
+  const sum = useMemo(() => {
+    console.log('Calculating sum...');
+    return a + b;
+  }, [a, b]); // Recompute only when `a` or `b` changes
+
+  return (
+    <div>
+      <h1>Sum Calculator</h1>
+      <div>
+        <label>
+          A:
+          <input
+            type="number"
+            value={a}
+            onChange={(e) => setA(Number(e.target.value))}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          B:
+          <input
+            type="number"
+            value={b}
+            onChange={(e) => setB(Number(e.target.value))}
+          />
+        </label>
+      </div>
+      <div>
+        <h2>Sum: {sum}</h2>
+      </div>
+    </div>
+  );
+}
+
+export default SumCalculator;
+Explanation
+============
+i) State Variables: a and b are state variables that store the numbers input by the user.
+ii) useMemo: The useMemo hook is used to compute the sum only when a or b changes. If either a or b remains unchanged, useMemo will return the previously computed sum instead of recalculating it.
+iii) Dependency Array: [a, b] is the dependency array, meaning the sum will be recalculated only when a or b changes.
+This example shows how useMemo can optimize performance by avoiding unnecessary recalculations of derived state values.
+
+6.4) Dynamic Styles: Memoize dynamic style objects to avoid unnecessary re-renders.
+import React, { useMemo, useState } from 'react';
+
+const DynamicStyledComponent = () => {
+  const [color, setColor] = useState('blue');
+  const [size, setSize] = useState(16);
+
+  // Memoize the style object to avoid unnecessary re-renders
+  const dynamicStyle = useMemo(() => ({
+    color: color,
+    fontSize: `${size}px`,
+    padding: '10px',
+    border: '1px solid black',
+    borderRadius: '4px',
+    backgroundColor: 'lightgray'
+  }), [color, size]); // Dependencies array
+
+  return (
+    <div>
+      <div style={dynamicStyle}>
+        This text has dynamic styles!
+      </div>
+      <button onClick={() => setColor(color === 'blue' ? 'red' : 'blue')}>
+        Toggle Color
+      </button>
+      <button onClick={() => setSize(size === 16 ? 24 : 16)}>
+        Toggle Size
+      </button>
+    </div>
+  );
+};
+
+export default DynamicStyledComponent;
+Explanation:
+=============
+i) State Management: color and size states are managed with useState.
+ii) Memoized Style: useMemo is used to create a dynamicStyle object that is only recomputed when either color or size changes. This prevents the style object from being recreated on every render, which can help avoid unnecessary re-renders of child components that rely on this style object.
+iii) Dependencies: The dependencies array for useMemo contains color and size. This means that the memoized style object will only change when one of these dependencies changes.
+
+6.5) Data Transformation: Memoize the results of transforming or sorting datasets.
+import React, { useState, useMemo } from 'react';
+
+const App = () => {
+  const [numbers, setNumbers] = useState([5, 3, 8, 1, 2]);
+  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' or 'desc'
+
+  // Memoized sorted numbers
+  const sortedNumbers = useMemo(() => {
+    console.log('Sorting numbers...');
+    return [...numbers].sort((a, b) => {
+      if (sortOrder === 'asc') return a - b;
+      if (sortOrder === 'desc') return b - a;
+      return 0;
+    });
+  }, [numbers, sortOrder]); // Only recompute if numbers or sortOrder changes
+
+  return (
+    <div>
+      <h1>Sorted Numbers</h1>
+      <button onClick={() => setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc')}>
+        Toggle Sort Order (Currently: {sortOrder})
+      </button>
+      <ul>
+        {sortedNumbers.map((num, index) => (
+          <li key={index}>{num}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default App;

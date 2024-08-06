@@ -1,0 +1,151 @@
+1. useState
+=================
+1.1) Counter: Manage a count value and increment or decrement it.
+import { useState } from "react"; //{ useState }: The curly braces {} indicate a named import. Named imports allow you to import specific pieces (exports) 
+								  //from a module. In this case, useState is one of the named exports from the React module.
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount((prevCount) => prevCount + 1);
+  };
+
+  const decrement = () => setCount((prevCount) => prevCount - 1);
+
+  return (
+    <div className="App"> //className: In React, className is used instead of the standard HTML class attribute because class is a reserved keyword 
+						  //in JavaScript. className is how you apply CSS classes to a React component.
+      <h1>Counter:- {count}</h1>
+      <button onClick={increment}>Increment</button>
+      <button onClick={decrement}>Decrement</button>
+    </div>
+  );
+}
+
+export default App;
+
+1.2) Form Input: Track and update the state of a text input field.
+import { useState } from "react";
+
+function App() {
+  const [inputValue, setInputValue] = useState("");
+
+  const changeInput = (e) => {
+    setInputValue(e.target.value);e: This is the event object passed to the event handler. It contains information about the event that occurred.
+								  target: This is a property of the event object that refers to the element that triggered the event.
+								value: This is a property of the target element (usually an input, textarea, or select element) 
+									   that contains the current 	value of that element.
+  };
+
+  return (
+    <div className="App">
+      <h1>InputValue:- {inputValue}</h1>
+      <label>
+        Enter Text
+        <input type="text" value={inputValue} onChange={changeInput} />
+      </label>
+    </div>
+  );
+}
+
+export default App;
+
+1.3) User Profile: Store and update user information like name and email.
+import { useState } from "react";
+
+function App() {
+  const [profile, setProfile] = useState({
+    name: "",
+    email: "",
+  });
+
+  const changeName = (e) => {
+    setProfile((prevProfile) => ({ ...prevProfile, name: e.target.value }));
+  };
+
+  const changeEmail = (e) => {
+    setProfile((prevProfile) => {
+      return { ...prevProfile, email: e.target.value };
+    });
+  };
+
+  return (
+    <div className="App">
+      <h1>
+        UserName:- {profile.name}
+        Email:- {profile.email}
+      </h1>
+      <form>
+        <label>
+          Enter UserName:
+          <input type="text" value={profile.name} onChange={changeName} />
+        </label>
+        <label>
+          Enter Email:
+          <input type="text" value={profile.Email} onChange={changeEmail} />
+        </label>
+      </form>
+    </div>
+  );
+}
+
+export default App;
+
+1.4) Toggle: Implement a toggle switch for showing/hiding elements.
+import { useState } from "react";
+import "./styles.css";
+
+function App() {
+  const [toggle, setToggle] = useState(false);
+
+  const handleToggle = () => {
+    setToggle(!toggle);
+  };
+
+  return (
+    <div className="App">
+      <button onClick={handleToggle}>{toggle ? "Hide" : "Show"} Element</button>
+      {toggle && (
+        <div style={{ marginBottom: "10px" }}>
+          <h1>I am Toggle Element</h1>
+        </div>
+      )}
+    </div>
+  );
+}
+
+export default App;
+
+1.5)Theme: Switch between light and dark mode themes.
+import { useState } from "react";
+
+function App() {
+  const [theme, setTheme] = useState("light");
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  const themeStyles = {
+    light: {
+      backgroundColor: "#fff",
+      color: "#000",
+    },
+    dark: {
+      backgroundColor: "#333",
+      color: "#fff",
+    },
+  };
+
+  return (
+    <div style={theme === "light" ? themeStyles.light : themeStyles.dark}>
+      <h1>{theme === "light" ? "Light Mode" : "Dark Mode"}</h1>
+      <button onClick={toggleTheme}>
+        Switch to {theme === "light" ? "Dark" : "Light"} Mode
+      </button>
+    </div>
+  );
+}
+
+export default App;

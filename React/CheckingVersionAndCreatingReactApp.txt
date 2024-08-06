@@ -1,0 +1,121 @@
+Checking Version
+=================
+**how to check node version on my system
+ChatGPT
+To check the version of Node.js installed on your system, you can use the command line. Here's how to do it:
+
+Windows, macOS, and Linux:
+Open your terminal or command prompt:
+
+On Windows, you can use Command Prompt, PowerShell, or Windows Terminal.
+On macOS, you can use the Terminal application.
+On Linux, you can use your preferred terminal emulator.
+Run the following command:
+
+bash
+Copy code
+node -v
+or
+
+bash
+Copy code
+node --version
+Check the output:
+
+The output will display the version of Node.js installed on your system. For example, if you have Node.js version 16.0.0 installed, you will see something like:
+Copy code
+v16.0.0
+Example:
+bash
+Copy code
+$ node -v
+v16.0.0
+This command works across different operating systems, making it a quick and universal way to check your Node.js version.
+
+**how to create a new project in react
+ChatGPT
+To create a new project in React, you typically use Create React App, a popular toolchain for setting up a React project with a sensible default configuration. Here’s a step-by-step guide:
+
+Prerequisites:
+Ensure you have Node.js and npm (Node Package Manager) installed on your system. You can check their versions using the following commands:
+bash
+Copy code
+node -v
+npm -v
+Steps to Create a New React Project:
+Install Node.js and npm (if not already installed):
+
+Download and install Node.js from the official website. This will include npm.
+Install Create React App globally (optional):
+
+While you can use npx to avoid installing Create React App globally, you might prefer to install it globally if you plan to create multiple projects.
+bash
+Copy code
+npm install -g create-react-app
+Create a New React Project:
+
+Navigate to the directory where you want to create your new React project using the terminal or command prompt.
+Run the following command to create a new React project. Replace my-app with the name you want for your project:
+bash
+Copy code
+npx create-react-app my-app
+Navigate into Your Project Directory:
+
+bash
+Copy code
+cd my-app
+Start the Development Server:
+
+To start the development server and see your React app in action, run:
+bash
+Copy code
+npm start
+This command will start the development server and open your new React app in your default web browser. By default, it will be running at http://localhost:3000.
+Detailed Example:
+Open your terminal or command prompt.
+Navigate to your desired directory:
+bash
+Copy code
+cd path/to/your/desired/directory
+Run Create React App using npx:
+bash
+Copy code
+npx create-react-app my-app
+Navigate into the project directory:
+bash
+Copy code
+cd my-app
+Start the development server:
+bash
+Copy code
+npm start
+Project Structure:
+After creating your React app, you will see a directory structure similar to this:
+
+csharp
+Copy code
+my-app
+├── node_modules
+├── public
+│   ├── index.html
+│   └── ...
+├── src
+│   ├── App.css
+│   ├── App.js
+│   ├── App.test.js
+│   ├── index.css
+│   ├── index.js
+│   ├── logo.svg
+│   └── reportWebVitals.js
+├── .gitignore
+├── package.json
+├── README.md
+└── yarn.lock (or package-lock.json)
+Important Files:
+src/index.js: The entry point of your React application.
+src/App.js: The main component of your application.
+public/index.html: The HTML template file where your React app will be injected.
+By following these steps, you will have a new React project set up and ready for development.
+
+create react app using vite(run below command)
+npm create vite@latest react-rtk-demo

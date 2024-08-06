@@ -1,0 +1,980 @@
+Redux
+======
+Scenario 1: Basic Counter App with Redux
+Task:
+Create a simple counter application using Redux.
+The counter should have two buttons: "Increment" and "Decrement".
+The counter value should be displayed in the UI.
+
+Requirements:
+Set up Redux with a basic store, actions, and reducer.
+Create actions for incrementing and decrementing the counter.
+Implement a reducer to handle these actions.
+Connect the Redux store to your React components using react-redux.
+
+Ans)Here's a step-by-step guide to creating a simple counter application using Redux with React:
+
+Step 1: Set Up the Project
+Initialize a React project:
+
+sh
+Copy code
+npx create-react-app redux-counter
+cd redux-counter
+Install Redux and React-Redux:
+
+sh
+Copy code
+npm install redux react-redux
+Step 2: Set Up Redux
+Create the Redux Store:
+
+Create a folder named redux inside src.
+Inside the redux folder, create three files: store.js, counterActions.js, and counterReducer.js.
+Define Actions (counterActions.js):
+
+js
+Copy code
+// src/redux/counterActions.js
+export const INCREMENT = 'INCREMENT';
+export const DECREMENT = 'DECREMENT';
+
+export const increment = () => ({
+    type: INCREMENT,
+});
+
+export const decrement = () => ({
+    type: DECREMENT,
+});
+Define Reducer (counterReducer.js):
+
+js
+Copy code
+// src/redux/counterReducer.js
+import { INCREMENT, DECREMENT } from './counterActions';
+
+const initialState = {
+    count: 0,
+};
+
+const counterReducer = (state = initialState, action) => {
+    switch (action.type) {
+        case INCREMENT:
+            return {
+                ...state,
+                count: state.count + 1,
+            };
+        case DECREMENT:
+            return {
+                ...state,
+                count: state.count - 1,
+            };
+        default:
+            return state;
+    }
+};
+
+export default counterReducer;
+Create the Store (store.js):
+
+js
+Copy code
+// src/redux/store.js
+import { createStore } from 'redux';
+import counterReducer from './counterReducer';
+
+const store = createStore(counterReducer);
+
+export default store;
+Step 3: Connect Redux to React
+Set Up Provider:
+
+In the src folder, modify index.js to use the Provider from react-redux to pass the Redux store to your React application.
+js
+Copy code
+// src/index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import App from './App';
+
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.getElementById('root')
+);
+Create Counter Component:
+
+Inside the src folder, create a file named Counter.js.
+js
+Copy code
+// src/Counter.js
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { increment, decrement } from './redux/counterActions';
+
+const Counter = () => {
+    const count = useSelector((state) => state.count);
+    const dispatch = useDispatch();
+
+    return (
+        <div>
+            <h1>Counter: {count}</h1>
+            <button onClick={() => dispatch(increment())}>Increment</button>
+            <button onClick={() => dispatch(decrement())}>Decrement</button>
+        </div>
+    );
+};
+
+export default Counter;
+Render Counter Component:
+
+Modify App.js to include the Counter component.
+js
+Copy code
+// src/App.js
+import React from 'react';
+import Counter from './Counter';
+
+const App = () => {
+    return (
+        <div>
+            <h1>Simple Redux Counter</h1>
+            <Counter />
+        </div>
+    );
+};
+
+export default App;
+Step 4: Run the Application
+sh
+Copy code
+npm start
+You should now see a simple counter application with "Increment" and "Decrement" buttons that update the counter value using Redux.
+
+Scenario 2: Todo List with Redux
+Task:
+
+Build a todo list application using Redux.
+The app should allow users to add, remove, and toggle the completion status of todo items.
+Requirements:
+
+Set up Redux store, actions, and reducer for managing the todo list state.
+Create actions for adding, removing, and toggling todos.
+Implement a reducer to handle these actions.
+Connect the Redux store to your React components to display and interact with the todo list.
+Ans)Step 1: Set Up Redux Store, Actions, and Reducer
+1. Define Actions:
+
+Create a file actions.js to define the action types and action creators.
+
+javascript
+Copy code
+// src/actions.js
+
+// Action Types
+export const ADD_TODO = 'ADD_TODO';
+export const REMOVE_TODO = 'REMOVE_TODO';
+export const TOGGLE_TODO = 'TOGGLE_TODO';
+
+// Action Creators
+export const addTodo = (text) => ({
+  type: ADD_TODO,
+  payload: text
+});
+
+export const removeTodo = (id) => ({
+  type: REMOVE_TODO,
+  payload: id
+});
+
+export const toggleTodo = (id) => ({
+  type: TOGGLE_TODO,
+  payload: id
+});
+2. Create Reducer:
+
+Create a file reducer.js to define the reducer for managing the todo list state.
+
+javascript
+Copy code
+// src/reducer.js
+
+import { ADD_TODO, REMOVE_TODO, TOGGLE_TODO } from './actions';
+
+const initialState = {
+  todos: []
+};
+
+const todoReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_TODO:
+      return {
+        ...state,
+        todos: [
+          ...state.todos,
+          { id: Date.now(), text: action.payload, completed: false }
+        ]
+      };
+    case REMOVE_TODO:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.id !== action.payload)
+      };
+    case TOGGLE_TODO:
+      return {
+        ...state,
+        todos: state.todos.map(todo =>
+          todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+        )
+      };
+    default:
+      return state;
+  }
+};
+
+export default todoReducer;
+3. Configure Store:
+
+Create a file store.js to set up the Redux store.
+
+javascript
+Copy code
+// src/store.js
+
+import { createStore } from 'redux';
+import todoReducer from './reducer';
+
+const store = createStore(todoReducer);
+
+export default store;
+Step 2: Connect Redux Store to React Components
+1. Set Up Provider:
+
+Wrap your application with the Provider component in your index.js.
+
+javascript
+Copy code
+// src/index.js
+
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './App';
+import store from './store';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+2. Create Todo Components:
+
+Create a TodoList and TodoItem component.
+
+javascript
+Copy code
+// src/components/TodoItem.js
+
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { removeTodo, toggleTodo } from '../actions';
+
+const TodoItem = ({ todo }) => {
+  const dispatch = useDispatch();
+
+  return (
+    <li>
+      <span
+        style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+        onClick={() => dispatch(toggleTodo(todo.id))}
+      >
+        {todo.text}
+      </span>
+      <button onClick={() => dispatch(removeTodo(todo.id))}>Remove</button>
+    </li>
+  );
+};
+
+export default TodoItem;
+javascript
+Copy code
+// src/components/TodoList.js
+
+import React from 'react';
+import { useSelector } from 'react-redux';
+import TodoItem from './TodoItem';
+
+const TodoList = () => {
+  const todos = useSelector(state => state.todos);
+
+  return (
+    <ul>
+      {todos.map(todo => (
+        <TodoItem key={todo.id} todo={todo} />
+      ))}
+    </ul>
+  );
+};
+
+export default TodoList;
+3. Create AddTodo Component:
+
+Create a component for adding new todos.
+
+javascript
+Copy code
+// src/components/AddTodo.js
+
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../actions';
+
+const AddTodo = () => {
+  const [text, setText] = useState('');
+  const dispatch = useDispatch();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text.trim()) {
+      dispatch(addTodo(text));
+      setText('');
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button type="submit">Add Todo</button>
+    </form>
+  );
+};
+
+export default AddTodo;
+4. Main App Component:
+
+Combine everything in the main App component.
+
+javascript
+Copy code
+// src/App.js
+
+import React from 'react';
+import AddTodo from './components/AddTodo';
+import TodoList from './components/TodoList';
+
+const App = () => {
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <AddTodo />
+      <TodoList />
+    </div>
+  );
+};
+
+export default App;
+This should give you a functional Todo List application using Redux, allowing users to add, remove, and toggle the completion status of todo items.
+
+Scenario 3: Async Data Fetching with Redux Thunk
+Task:
+
+Create an application that fetches data from an external API using Redux Thunk.
+Display the fetched data in a list.
+Requirements:
+
+Set up Redux store, actions, and reducer.
+Use Redux Thunk middleware to handle asynchronous actions.
+Create actions for initiating the fetch, handling success, and handling errors.
+Implement a reducer to manage loading, success, and error states.
+Connect the Redux store to your React components to display the data.
+Ans)Step 1: Set Up Redux Store
+Install Dependencies
+Ensure you have redux, react-redux, and redux-thunk installed.
+
+sh
+Copy code
+npm install redux react-redux redux-thunk
+Create Redux Store
+Create a file store.js to set up your Redux store and apply the Redux Thunk middleware.
+
+javascript
+Copy code
+// store.js
+import { createStore, applyMiddleware } from 'redux';
+import {thunk} from 'redux-thunk';
+import rootReducer from './reducers';
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export default store;
+Step 2: Create Actions
+Define Action Types
+Create a file actionTypes.js to define your action types.
+
+javascript
+Copy code
+// actionTypes.js
+export const FETCH_POSTS_REQUEST = 'FETCH_POSTS_REQUEST';
+export const FETCH_POSTS_SUCCESS = 'FETCH_POSTS_SUCCESS';
+export const FETCH_POSTS_FAILURE = 'FETCH_POSTS_FAILURE';
+Create Action Creators
+Create a file actions.js to define your action creators for initiating the fetch, handling success, and handling errors.
+
+javascript
+Copy code
+// actions.js
+import {
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_FAILURE
+} from './actionTypes';
+
+export const fetchPostsRequest = () => ({
+  type: FETCH_POSTS_REQUEST
+});
+
+export const fetchPostsSuccess = (posts) => ({
+  type: FETCH_POSTS_SUCCESS,
+  payload: posts
+});
+
+export const fetchPostsFailure = (error) => ({
+  type: FETCH_POSTS_FAILURE,
+  payload: error
+});
+
+export const fetchPosts = () => {
+  return async (dispatch) => {
+    dispatch(fetchPostsRequest());
+    try {
+      const response = await fetch('https://jsonplaceholder.typicode.com/posts');
+      const data = await response.json();
+      dispatch(fetchPostsSuccess(data));
+    } catch (error) {
+      dispatch(fetchPostsFailure(error.message));
+    }
+  };
+};
+Step 3: Create Reducer
+Implement Reducer
+Create a file reducer.js to manage loading, success, and error states.
+
+javascript
+Copy code
+// reducer.js
+import {
+  FETCH_POSTS_REQUEST,
+  FETCH_POSTS_SUCCESS,
+  FETCH_POSTS_FAILURE
+} from './actionTypes';
+
+const initialState = {
+  loading: false,
+  posts: [],
+  error: ''
+};
+
+const postsReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case FETCH_POSTS_REQUEST:
+      return {
+        ...state,
+        loading: true
+      };
+    case FETCH_POSTS_SUCCESS:
+      return {
+        loading: false,
+        posts: action.payload,
+        error: ''
+      };
+    case FETCH_POSTS_FAILURE:
+      return {
+        loading: false,
+        posts: [],
+        error: action.payload
+      };
+    default:
+      return state;
+  }
+};
+
+export default postsReducer;
+Combine Reducers (if necessary)
+If you have multiple reducers, combine them in a reducers/index.js file.
+
+javascript
+Copy code
+// reducers/index.js
+import { combineReducers } from 'redux';
+import postsReducer from './reducer';
+
+const rootReducer = combineReducers({
+  posts: postsReducer
+});
+
+export default rootReducer;
+Step 4: Connect Redux Store to React
+Set Up Provider
+In your index.js or App.js file, wrap your application with the Provider component to make the Redux store available to your React components.
+
+javascript
+Copy code
+// index.js
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import App from './App';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+Create a Component to Display Data
+Create a PostsList.js component to fetch and display the data.
+
+javascript
+Copy code
+// PostsList.js
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPosts } from './actions';
+
+const PostsList = () => {
+  const dispatch = useDispatch();
+  const { loading, posts, error } = useSelector((state) => state.posts);
+
+  useEffect(() => {
+    dispatch(fetchPosts());
+  }, [dispatch]);
+
+  return (
+    <div>
+      {loading && <p>Loading...</p>}
+      {error && <p>Error: {error}</p>}
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>{post.title}</li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default PostsList;
+Use the Component in App
+Finally, use the PostsList component in your App.js.
+
+javascript
+Copy code
+// App.js
+import React from 'react';
+import PostsList from './PostsList';
+
+const App = () => {
+  return (
+    <div>
+      <h1>Posts</h1>
+      <PostsList />
+    </div>
+  );
+};
+
+export default App;
+Summary
+You have now set up an application that fetches data from an external API using Redux Thunk, manages loading, success, and error states, and displays the data in a list
+
+Scenario 4: Shopping Cart with Redux
+Task:
+
+Develop a shopping cart application using Redux.
+The app should allow users to add items to the cart, remove items, and update item quantities.
+Requirements:
+
+Set up Redux store, actions, and reducer for managing the shopping cart state.
+Create actions for adding items, removing items, and updating quantities.
+Implement a reducer to handle these actions.
+Connect the Redux store to your React components to display and interact with the shopping cart.
+Ans)Step 1: Set Up Redux Store
+First, you'll need to set up your Redux store. You'll create a store.js file for this purpose.
+
+store.js
+javascript
+Copy code
+import { createStore } from 'redux';
+import rootReducer from './reducers';
+
+const store = createStore(rootReducer);
+
+export default store;
+Step 2: Create Actions
+Create a actions.js file to define the actions for adding items, removing items, and updating quantities.
+
+actions.js
+javascript
+Copy code
+export const ADD_ITEM = 'ADD_ITEM';
+export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const UPDATE_QUANTITY = 'UPDATE_QUANTITY';
+
+export const addItem = (item) => ({
+  type: ADD_ITEM,
+  payload: item,
+});
+
+export const removeItem = (itemId) => ({
+  type: REMOVE_ITEM,
+  payload: itemId,
+});
+
+export const updateQuantity = (itemId, quantity) => ({
+  type: UPDATE_QUANTITY,
+  payload: { itemId, quantity },
+});
+Step 3: Implement Reducer
+Create a reducers.js file to handle these actions and manage the state of the shopping cart.
+
+reducers.js
+javascript
+Copy code
+import { ADD_ITEM, REMOVE_ITEM, UPDATE_QUANTITY } from './actions';
+
+const initialState = {
+  cart: [],
+};
+
+const rootReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ADD_ITEM:
+      return {
+        ...state,
+        cart: [...state.cart, action.payload],
+      };
+    case REMOVE_ITEM:
+      return {
+        ...state,
+        cart: state.cart.filter((item) => item.id !== action.payload),
+      };
+    case UPDATE_QUANTITY:
+      return {
+        ...state,
+        cart: state.cart.map((item) =>
+          item.id === action.payload.itemId
+            ? { ...item, quantity: action.payload.quantity }
+            : item
+        ),
+      };
+    default:
+      return state;
+  }
+};
+
+export default rootReducer;
+Step 4: Connect Redux Store to React Components
+Now, connect the Redux store to your React components. You will need to use Provider from react-redux and connect your components using useDispatch and useSelector.
+
+index.js
+javascript
+Copy code
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import App from './App';
+import store from './store';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+App.js
+javascript
+Copy code
+import React from 'react';
+import ShoppingCart from './ShoppingCart';
+
+const App = () => (
+  <div>
+    <h1>Shopping Cart</h1>
+    <ShoppingCart />
+  </div>
+);
+
+export default App;
+ShoppingCart.js
+javascript
+Copy code
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { addItem, removeItem, updateQuantity } from './actions';
+
+const ShoppingCart = () => {
+  const dispatch = useDispatch();
+  const cart = useSelector((state) => state.cart);
+
+  const handleAddItem = (item) => {
+    dispatch(addItem(item));
+  };
+
+  const handleRemoveItem = (itemId) => {
+    dispatch(removeItem(itemId));
+  };
+
+  const handleUpdateQuantity = (itemId, quantity) => {
+    dispatch(updateQuantity(itemId, quantity));
+  };
+
+  return (
+    <div>
+      <button onClick={() => handleAddItem({ id: 1, name: 'Item 1', quantity: 1 })}>
+        Add Item 1
+      </button>
+      <button onClick={() => handleAddItem({ id: 2, name: 'Item 2', quantity: 1 })}>
+        Add Item 2
+      </button>
+
+      <ul>
+        {cart.map((item) => (
+          <li key={item.id}>
+            {item.name} - Quantity: {item.quantity}
+            <button onClick={() => handleRemoveItem(item.id)}>Remove</button>
+            <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>+</button>
+            <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}>-</button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ShoppingCart;
+This setup will allow you to add items to the cart, remove items, and update item quantities using Redux in your shopping cart application.
+
+Scenario 5: User Authentication with Redux
+Task:
+
+Create a user authentication system using Redux.
+The app should allow users to log in and log out.
+Requirements:
+
+Set up Redux store, actions, and reducer for managing authentication state.
+Create actions for logging in and logging out.
+Implement a reducer to handle authentication state (e.g., storing user info, handling login status).
+Use middleware like Redux Thunk for handling async login actions if needed.
+Connect the Redux store to your React components to display user info and authentication status.
+Tips for All Scenarios:
+Ensure to use combineReducers if your state grows complex.
+Leverage react-redux hooks (useSelector, useDispatch) for connecting your components to the Redux store.
+Focus on clean code and separating concerns (actions, reducers, components).
+Consider error handling and edge cases (e.g., what happens if a network request fails).
+Ans)Step 1: Set Up Redux Store
+First, install the necessary packages:
+
+bash
+Copy code
+npm install redux react-redux redux-thunk
+Then, create the following files and folders to organize your Redux setup:
+
+src/store/index.js
+src/store/actions/auth.js
+src/store/reducers/auth.js
+src/store/reducers/index.js
+Step 2: Configure the Redux Store
+src/store/index.js
+
+javascript
+Copy code
+import { createStore, applyMiddleware, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+import authReducer from './reducers/auth';
+
+const rootReducer = combineReducers({
+  auth: authReducer,
+});
+
+const store = createStore(rootReducer, applyMiddleware(thunk));
+
+export default store;
+Step 3: Define Actions for Authentication
+src/store/actions/auth.js
+
+javascript
+Copy code
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGOUT = 'LOGOUT';
+
+export const login = (userData) => {
+  return (dispatch) => {
+    // Simulate async login operation
+    setTimeout(() => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: userData,
+      });
+    }, 1000);
+  };
+};
+
+export const logout = () => {
+  return {
+    type: LOGOUT,
+  };
+};
+Step 4: Create the Reducer for Authentication
+src/store/reducers/auth.js
+
+javascript
+Copy code
+import { LOGIN_SUCCESS, LOGOUT } from '../actions/auth';
+
+const initialState = {
+  isAuthenticated: false,
+  user: null,
+};
+
+const authReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case LOGIN_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+        user: action.payload,
+      };
+    case LOGOUT:
+      return {
+        ...state,
+        isAuthenticated: false,
+        user: null,
+      };
+    default:
+      return state;
+  }
+};
+
+export default authReducer;
+Step 5: Connect Redux to React Components
+Wrap your application with the Provider to connect Redux to your React components:
+
+src/index.js
+
+javascript
+Copy code
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from './store';
+import App from './App';
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('root')
+);
+Step 6: Create Components for Login and Logout
+src/components/Login.js
+
+javascript
+Copy code
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { login } from '../store/actions/auth';
+
+const Login = () => {
+  const dispatch = useDispatch();
+
+  const handleLogin = () => {
+    const userData = { name: 'John Doe', email: 'john.doe@example.com' };
+    dispatch(login(userData));
+  };
+
+  return (
+    <button onClick={handleLogin}>Login</button>
+  );
+};
+
+export default Login;
+src/components/Logout.js
+
+javascript
+Copy code
+import React from 'react';
+import { useDispatch } from 'react-redux';
+import { logout } from '../store/actions/auth';
+
+const Logout = () => {
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  return (
+    <button onClick={handleLogout}>Logout</button>
+  );
+};
+
+export default Logout;
+src/components/UserInfo.js
+
+javascript
+Copy code
+import React from 'react';
+import { useSelector } from 'react-redux';
+
+const UserInfo = () => {
+  const { isAuthenticated, user } = useSelector((state) => state.auth);
+
+  return (
+    <div>
+      {isAuthenticated ? (
+        <div>
+          <p>Welcome, {user.name}!</p>
+          <p>Email: {user.email}</p>
+        </div>
+      ) : (
+        <p>Please log in.</p>
+      )}
+    </div>
+  );
+};
+
+export default UserInfo;
+Step 7: Integrate Components into Your App
+src/App.js
+
+javascript
+Copy code
+import React from 'react';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import UserInfo from './components/UserInfo';
+
+const App = () => {
+  return (
+    <div>
+      <h1>User Authentication</h1>
+      <Login />
+      <Logout />
+      <UserInfo />
+    </div>
+  );
+};
+
+export default App;
+Tips
+Use combineReducers to manage more complex state structures.
+Leverage useSelector and useDispatch hooks for connecting components to the Redux store.
+Implement error handling and edge cases for network request failures or invalid login credentials.
+This setup will help you create a clean and organized authentication system using Redux in your React application.

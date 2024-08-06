@@ -1,0 +1,380 @@
+4. useReducer
+==============
+4.1) Complex Form State: Manage the state of a complex form with multiple fields and validation.
+Here is a simple example of using useReducer to manage the state of a complex form with multiple fields and validation.
+import React, { useReducer } from 'react';
+
+const initialState = {
+  name: '',
+  email: '',
+  password: '',
+  confirmPassword: '',
+  errors: {}
+};
+
+const formReducer = (state, action) => {
+  switch (action.type) {
+    case 'SET_FIELD':
+      return {
+        ...state,
+        [action.field]: action.value
+      };
+    case 'SET_ERROR':
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.field]: action.error
+        }
+      };
+    case 'RESET':
+      return initialState;
+    default:
+      return state;
+  }
+};
+
+const validateForm = (state) => {
+  const errors = {};
+  if (!state.name) errors.name = 'Name is required';
+  if (!state.email) errors.email = 'Email is required';
+  if (!state.password) errors.password = 'Password is required';
+  if (state.password !== state.confirmPassword) errors.confirmPassword = 'Passwords do not match';
+  return errors;
+};
+
+const ComplexForm = () => {
+  const [state, dispatch] = useReducer(formReducer, initialState);
+
+  const handleChange = (e) => {
+    dispatch({ type: 'SET_FIELD', field: e.target.name, value: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const errors = validateForm(state);
+    if (Object.keys(errors).length > 0) {
+      for (let field in errors) {
+        dispatch({ type: 'SET_ERROR', field, error: errors[field] });
+      }
+    } else {
+      // Submit form
+      console.log('Form submitted', state);
+      dispatch({ type: 'RESET' });
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={state.name}
+          onChange={handleChange}
+        />
+        {state.errors.name && <p>{state.errors.name}</p>}
+      </div>
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={state.email}
+          onChange={handleChange}
+        />
+        {state.errors.email && <p>{state.errors.email}</p>}
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={state.password}
+          onChange={handleChange}
+        />
+        {state.errors.password && <p>{state.errors.password}</p>}
+      </div>
+      <div>
+        <label>Confirm Password:</label>
+        <input
+          type="password"
+          name="confirmPassword"
+          value={state.confirmPassword}
+          onChange={handleChange}
+        />
+        {state.errors.confirmPassword && <p>{state.errors.confirmPassword}</p>}
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export default ComplexForm;
+Explanation:
+=============
+*) Initial State: Defines the initial state of the form, including the form fields and an errors object.
+*) Reducer: Manages state changes based on different action types (SET_FIELD, SET_ERROR, and RESET).
+*) Validation Function: Validates the form fields and returns an errors object if there are validation issues.
+Form Component:
+================
+*) handleChange: Dispatches SET_FIELD actions to update form field values.
+*) handleSubmit: Validates the form and dispatches SET_ERROR actions if there are errors. If the form is valid, it logs the form data and resets the form.
+This example provides a straightforward way to handle a complex form state with validation using useReducer.
+
+4.2) Counter with Actions: Implement a counter with increment, decrement, and reset actions.
+import React, { useReducer } from 'react';
+
+const initialState = { count: 0 };
+
+function reducer(state, action) {
+  switch (action.type) {
+    case 'increment':
+      return { count: state.count + 1 };
+    case 'decrement':
+      return { count: state.count - 1 };
+    case 'reset':
+      return { count: 0 };
+    default:
+      throw new Error();
+  }
+}
+
+function Counter() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  return (
+    <div>
+      <p>Count: {state.count}</p>
+      <button onClick={() => dispatch({ type: 'increment' })}>Increment</button>
+      <button onClick={() => dispatch({ type: 'decrement' })}>Decrement</button>
+      <button onClick={() => dispatch({ type: 'reset' })}>Reset</button>
+    </div>
+  );
+}
+
+export default Counter;
+
+4.3) Todo List: Manage a list of todos with actions to add, remove, and toggle completed items.
+import React, { useReducer, useState } from 'react';
+
+const initialState = [];
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_TODO':
+      return [...state, { id: Date.now(), text: action.payload, completed: false }];
+    case 'REMOVE_TODO':
+      return state.filter(todo => todo.id !== action.payload);
+    case 'TOGGLE_TODO':
+      return state.map(todo =>
+        todo.id === action.payload ? { ...todo, completed: !todo.completed } : todo
+      );
+    default:
+      return state;
+  }
+};
+
+const TodoList = () => {
+  const [todos, dispatch] = useReducer(reducer, initialState);
+  const [text, setText] = useState('');
+
+  const handleAddTodo = () => {
+    dispatch({ type: 'ADD_TODO', payload: text });
+    setText('');
+  };
+
+  return (
+    <div>
+      <h1>Todo List</h1>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button onClick={handleAddTodo}>Add Todo</button>
+      <ul>
+        {todos.map(todo => (
+          <li key={todo.id}>
+            <span
+              style={{ textDecoration: todo.completed ? 'line-through' : 'none' }}
+              onClick={() => dispatch({ type: 'TOGGLE_TODO', payload: todo.id })}
+            >
+              {todo.text}
+            </span>
+            <button onClick={() => dispatch({ type: 'REMOVE_TODO', payload: todo.id })}>
+              Remove
+            </button>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default TodoList;
+
+4.4) Shopping Cart: Handle adding, removing, and updating items in a shopping cart.
+import React, { useReducer } from 'react';
+
+// Initial state for the shopping cart
+const initialState = {
+  items: []
+};
+
+// Reducer function to handle actions
+const cartReducer = (state, action) => {
+  switch (action.type) {
+    case 'ADD_ITEM':
+      return {
+        ...state,
+        items: [...state.items, action.payload]
+      };
+    case 'REMOVE_ITEM':
+      return {
+        ...state,
+        items: state.items.filter(item => item.id !== action.payload.id)
+      };
+    case 'UPDATE_ITEM':
+      return {
+        ...state,
+        items: state.items.map(item =>
+          item.id === action.payload.id ? { ...item, ...action.payload.updates } : item
+        )
+      };
+    default:
+      return state;
+  }
+};
+
+const ShoppingCart = () => {
+  const [state, dispatch] = useReducer(cartReducer, initialState);
+
+  const addItem = (item) => {
+    dispatch({ type: 'ADD_ITEM', payload: item });
+  };
+
+  const removeItem = (id) => {
+    dispatch({ type: 'REMOVE_ITEM', payload: { id } });
+  };
+
+  const updateItem = (id, updates) => {
+    dispatch({ type: 'UPDATE_ITEM', payload: { id, updates } });
+  };
+
+  return (
+    <div>
+      <h1>Shopping Cart</h1>
+      <button onClick={() => addItem({ id: 1, name: 'Item 1', quantity: 1 })}>Add Item 1</button>
+      <button onClick={() => addItem({ id: 2, name: 'Item 2', quantity: 2 })}>Add Item 2</button>
+      <button onClick={() => updateItem(1, { quantity: 3 })}>Update Item 1 Quantity</button>
+      <button onClick={() => removeItem(2)}>Remove Item 2</button>
+      
+      <ul>
+        {state.items.map(item => (
+          <li key={item.id}>
+            {item.name} - Quantity: {item.quantity}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default ShoppingCart;
+
+4.5) Pagination: Implement pagination logic with actions to change pages and update items per page.
+import React, { useReducer } from 'react';
+
+// Initial state
+const initialState = {
+  currentPage: 1,
+  itemsPerPage: 10,
+  totalItems: 100, // Total items available
+};
+
+// Actions
+const actionTypes = {
+  NEXT_PAGE: 'NEXT_PAGE',
+  PREV_PAGE: 'PREV_PAGE',
+  SET_PAGE: 'SET_PAGE',
+  SET_ITEMS_PER_PAGE: 'SET_ITEMS_PER_PAGE',
+};
+
+// Reducer function
+const reducer = (state, action) => {
+  switch (action.type) {
+    case actionTypes.NEXT_PAGE:
+      return {
+        ...state,
+        currentPage: Math.min(state.currentPage + 1, Math.ceil(state.totalItems / state.itemsPerPage)),
+      };
+    case actionTypes.PREV_PAGE:
+      return {
+        ...state,
+        currentPage: Math.max(state.currentPage - 1, 1),
+      };
+    case actionTypes.SET_PAGE:
+      return {
+        ...state,
+        currentPage: action.page,
+      };
+    case actionTypes.SET_ITEMS_PER_PAGE:
+      return {
+        ...state,
+        itemsPerPage: action.itemsPerPage,
+        currentPage: 1, // Reset to first page when items per page change
+      };
+    default:
+      return state;
+  }
+};
+
+// Component
+const Pagination = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { currentPage, itemsPerPage, totalItems } = state;
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  return (
+    <div>
+      <h2>Pagination</h2>
+      <div>
+        <button
+          onClick={() => dispatch({ type: actionTypes.PREV_PAGE })}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        <span>
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => dispatch({ type: actionTypes.NEXT_PAGE })}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
+      <div>
+        <label>
+          Items per page:
+          <select
+            value={itemsPerPage}
+            onChange={(e) => dispatch({ type: actionTypes.SET_ITEMS_PER_PAGE, itemsPerPage: Number(e.target.value) })}
+          >
+            {[10, 20, 50].map(num => (
+              <option key={num} value={num}>
+                {num}
+              </option>
+            ))}
+          </select>
+        </label>
+      </div>
+    </div>
+  );
+};
+
+export default Pagination;

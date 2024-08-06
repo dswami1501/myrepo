@@ -1,0 +1,178 @@
+Q1) import React, { useEffect } from 'react';
+
+const Test = () => {
+
+  useEffect(() => {
+    console.log('First useEffect');
+  });
+
+  useEffect(() => {
+    console.log('Second useEffect');
+  }, []);
+
+  return (<div>Testing</div>);
+};
+
+export default Test;
+Which of the useEffect shows componentDidMount behaviour and how many times they are going run and which approach is recommanded?
+Ans) Behavior of Each useEffect
+First useEffect:
+================
+useEffect(() => {
+  console.log('First useEffect');
+});
+This effect has no dependency array.
+It runs after every render (initial mount and every update).
+Number of times it runs: Every time the component renders, including initial render and subsequent re-renders.
+Second useEffect:
+==================
+useEffect(() => {
+  console.log('Second useEffect');
+}, []);
+This effect has an empty dependency array ([]).
+It runs only once when the component mounts.
+Number of times it runs: Once, when the component mounts.
+
+Which useEffect Shows componentDidMount Behavior?
+The componentDidMount behavior is demonstrated by the second useEffect:
+
+useEffect(() => {
+  console.log('Second useEffect');
+}, []);
+This effect mimics componentDidMount because it runs only once when the component is initially mounted.
+
+Recommended Approach
+=====================
+The recommended approach depends on the specific use case:
+
+For side effects that should run only once on mount (like fetching data or setting up subscriptions), use the second approach with the empty dependency array ([]).
+For side effects that should run on every render (like logging for debugging or interacting with the DOM after every update), the first approach is appropriate, but it's generally less common and should be used cautiously to avoid performance issues.
+In most cases, you will want to use the second approach for componentDidMount behavior to ensure the effect runs only once and avoid unnecessary executions.
+
+Final Example
+==============
+import React, { useEffect } from 'react';
+
+const Test = () => {
+  // Runs after every render
+  useEffect(() => {
+    console.log('First useEffect');
+  });
+
+  // Runs only once when the component mounts
+  useEffect(() => {
+    console.log('Second useEffect');
+  }, []);
+
+  return (<div>Testing</div>);
+};
+
+export default Test;
+Here, the console will log:
+
+"First useEffect" after every render.
+"Second useEffect" only once when the component mounts.
+
+
+Q2) import {useEffect, useState} from 'react'
+const Test =()=>{
+const [test, setTest] = useState('Deepak')
+useEffect(
+() =>console.log('First useEffect')
+)
+useEffect(
+() =>console.log('Second useEffect'),[]
+)
+useEffect(
+() =>console.log('Third useEffect'),
+[test]
+)
+return (<div>
+StringTest - {test}
+<button onClick={()=> setTest('Swami')}>Change Text</button>
+</div>)
+}
+export default Test
+Tell me about console logs when button is not clicked and when button is clicked? And tell me something more for my understanding and knowledge and related to life cycle methods? 
+
+Let's break down the useEffect hooks and their behavior in your Test component:
+
+Initial Render (Button Not Clicked)
+====================================
+First useEffect:
+
+useEffect(() => console.log('First useEffect'));
+This useEffect runs after every render because it has no dependency array. On the initial render, it logs First useEffect to the console.
+
+Second useEffect:
+
+useEffect(() => console.log('Second useEffect'), []);
+This useEffect runs only once, after the initial render, because it has an empty dependency array. It logs Second useEffect to the console.
+
+Third useEffect:
+
+useEffect(() => console.log('Third useEffect'), [test]);
+This useEffect runs after the initial render and whenever the test state changes. On the initial render, it logs Third useEffect to the console.
+
+Console Log (Initial Render):
+==============================
+Second useEffect
+Third useEffect
+First useEffect
+
+The order of the logs is determined by the execution order of the useEffect hooks. The useEffect hooks are run in the order they are defined after the DOM is updated.
+
+After Clicking the Button
+==========================
+When you click the button, the setTest('Swami') function is called, which changes the test state. This triggers a re-render of the component.
+
+State Update (setTest):
+Changes test from 'Deepak' to 'Swami'.
+Triggers a re-render.
+
+First useEffect:
+useEffect(() => console.log('First useEffect'));
+This useEffect runs after every render. On re-render, it logs First useEffect to the console.
+
+Second useEffect:
+useEffect(() => console.log('Second useEffect'), []);
+This useEffect doesn't run again because it has an empty dependency array and only runs after the initial render.
+
+Third useEffect:
+useEffect(() => console.log('Third useEffect'), [test]);
+This useEffect runs because the test state has changed. It logs Third useEffect to the console.
+
+Console Log (After Button Click):
+==================================
+First useEffect
+Third useEffect
+
+Understanding and Lifecycle Methods
+======================================
+useEffect without dependencies:
+Acts like componentDidMount and componentDidUpdate combined. It runs after every render.
+
+useEffect with an empty dependency array:
+Acts like componentDidMount. It runs once after the initial render.
+
+useEffect with dependencies:
+Acts like componentDidUpdate for the specified dependencies. It runs after the initial render and whenever any of the dependencies change.
+
+In class components, lifecycle methods are used to handle side effects at different points in a component's lifecycle:
+componentDidMount: Runs once after the initial render.
+componentDidUpdate: Runs after every update, and you can specify conditions.
+componentWillUnmount: Runs before the component is unmounted and destroyed.
+
+useEffect can cover all these use cases:
+To mimic componentDidMount, use an empty dependency array ([]).
+To mimic componentDidUpdate, list the dependencies.
+To mimic componentWillUnmount, return a cleanup function from useEffect.
+
+Here's a quick example that includes cleanup:
+useEffect(() => {
+  console.log('Component mounted or updated');
+  return () => {
+    console.log('Cleanup on unmount or before next update');
+  };
+}, [dependency]); // replace `dependency` with your actual dependency
+This understanding helps in optimizing the component's performance and ensures side effects are handled correctly.

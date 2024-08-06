@@ -1,0 +1,246 @@
+2. useEffect
+=============
+2.1) Fetching Data: Fetch data from an API when the component mounts.
+import { useState, useEffect } from "react";
+
+function App() {
+  const [loading, setLoading] = useState(true);
+  const [fact, setFacts] = useState("");
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://catfact.ninja/fact");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const data = await response.json();
+        setFacts(data.fact);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <p>Loading...</p>;
+  }
+  if (error) {
+    return <p>Error {error}</p>;
+  }
+
+  return (
+    <div className="App">
+      <h1>Cat Fact</h1>
+      <p>{fact}</p>
+    </div>
+  );
+}
+
+export default App;
+
+2.2) Event Listener: Add and clean up an event listener for window resizing.
+import { useState, useEffect } from "react";
+
+function App() {
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    // Add event listener for window resize
+    window.addEventListener('resize', handleResize);
+
+    // Clean up the event listener on component unmount
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []); // Empty dependency array ensures this effect runs only on mount and unmount
+
+  return (
+    <div>
+      <h1>Window Size</h1>
+      <p>Width: {windowSize.width}px</p>
+      <p>Height: {windowSize.height}px</p>
+    </div>
+  );
+}
+
+export default App;
+
+2.3) Subscription: Set up a subscription to a data source and clean it up on component unmount.
+import { useState, useEffect } from "react";
+
+function App() {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Function to handle data updates
+    const handleDataUpdate = (newData) => {
+      setData(newData);
+    };
+
+    // Subscribe to the data source
+    const unsubscribe = DataSource.subscribe(handleDataUpdate);
+
+    // Clean up subscription on unmount
+    return () => {
+      unsubscribe();
+    };
+  }, []); // Empty dependency array ensures this runs only once
+
+  return (
+    <div>
+      <h1>Data Subscription</h1>
+      <p>{data ? data : "No data yet..."}</p>
+    </div>
+  );
+}
+
+export default App;
+
+const DataSource = {
+  subscribe: (abc) => {
+    // Simulate a subscription
+    const intervalId = setInterval(() => {
+      abc(`Data update at ${new Date().toLocaleTimeString()}`);
+    }, 1000);
+
+    // Return a function to unsubscribe
+    return () => clearInterval(intervalId);
+  },
+};
+Explanation:
+============
+i) Data Source Simulation: A mock DataSource object simulates subscribing to a data source and periodically calls a callback(abc) with new data.
+ii) useEffect Hook:
+*) Subscribes to the data source when the component mounts.
+*) Returns a cleanup function that unsubscribes from the data source when the component unmounts.
+iii) Data State: Uses useState to manage the data received from the subscription.
+iv) Rendering: Displays the data or a message if no data is yet received.
+
+2.4) Local Storage: Save and retrieve user preferences from local storage.
+import { useState, useEffect } from "react";
+
+function App() {
+  const [theme, setTheme] = useState("light");
+
+  // Retrieve theme from local storage when the component mounts
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
+  // Save theme to local storage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("theme", theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  };
+
+  return (
+    <div className={theme}>
+      <h1>{theme === "light" ? "Light Theme" : "Dark Theme"}</h1>
+      <button onClick={toggleTheme}>Toggle Theme</button>
+    </div>
+  );
+}
+
+export default App;
+
+Explanation
+===========
+i) Initial State Setup: The useState hook is used to initialize the theme state with a default value of 'light'.
+ii) Retrieve from Local Storage: The first useEffect runs once when the component mounts (indicated by the empty dependency array []). 
+							It checks if a theme is saved in local storage and sets it as the current theme.
+iii) Save to Local Storage: The second useEffect runs whenever the theme state changes. It saves the current theme to local storage.
+iv) Toggle Theme: The toggleTheme function toggles the theme between 'light' and 'dark'.
+
+2.5) Animations: Trigger animations or transitions when certain state values change.
+import React, { useState, useEffect } from 'react';
+import './App.css'; // Make sure to import your CSS file
+
+function App() {
+  const [color, setColor] = useState('blue');
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    if (animate) {
+      // Add a class to trigger the animation
+      const timer = setTimeout(() => {
+        setAnimate(false);
+      }, 1000); // Duration of the animation
+
+      // Cleanup the timer
+      return () => clearTimeout(timer);
+    }
+  }, [animate]);
+
+  const toggleColor = () => {
+    setColor(color === 'blue' ? 'green' : 'blue');
+    setAnimate(true);
+  };
+
+  return (
+    <div className="App">
+      <div className={`box ${animate ? 'animate' : ''}`} style={{ backgroundColor: color }}>
+        Change my color!
+      </div>
+	  <h3>Animate: {animate.toString()}</h3>//To print boolean value
+      <button onClick={toggleColor}>Toggle Color</button>
+    </div>
+  );
+}
+
+export default App;
+*) And the corresponding CSS to handle the animation:
+
+css
+Copy code
+/* App.css */
+.box {
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  transition: background-color 1s ease;
+}
+
+.animate {
+  /* Any other animation styles you want to add */
+}
+Explanation
+=============
+State Management:
+==================
+*) color: This state variable holds the current color of the box (blue or green).
+*) animate: This state variable is used to trigger the animation class.
+useEffect Hook:
+================
+*) The useEffect hook listens to changes in the animate state.
+*) When animate becomes true, a timer is set to reset animate back to false after 1 second (the duration of the transition).
+*) The timer is cleared if the component unmounts before the timeout completes to prevent memory leaks.
+Toggle Color Function:
+=======================
+*) The toggleColor function changes the color state and sets animate to true to trigger the animation.
+CSS Transition:
+===============
+*)The box class defines a transition for the background-color property.
+*)The animate class can be used to add any additional animation styles.
+
+By changing the color state and setting animate to true, the component smoothly transitions the background color, demonstrating how to use useEffect to trigger animations or transitions based on state changes.

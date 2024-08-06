@@ -1,0 +1,332 @@
+8. Custom Hooks
+=================
+8.1) UseLocalStorage: Create a custom hook to manage local storage state.
+Custom Hook: useLocalStorage
+import { useState } from 'react';
+
+function useLocalStorage(key, initialValue) {
+  // Retrieve the stored value from local storage or use the initial value
+  const [storedValue, setStoredValue] = useState(() => {
+    try {
+      const item = window.localStorage.getItem(key);
+      return item ? JSON.parse(item) : initialValue;
+    } catch (error) {
+      console.error(error);
+      return initialValue;
+    }
+  });
+
+  // Save the value to local storage
+  const setValue = (value) => {
+    try {
+      const valueToStore = value instanceof Function ? value(storedValue) : value;
+      setStoredValue(valueToStore);
+      window.localStorage.setItem(key, JSON.stringify(valueToStore));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return [storedValue, setValue];
+}
+
+export default useLocalStorage;
+Usage Example
+Here's how you can use the useLocalStorage custom hook in a component:
+import React from 'react';
+import useLocalStorage from './useLocalStorage';
+
+function App() {
+  const [name, setName] = useLocalStorage('name', 'John Doe');
+
+  return (
+    <div>
+      <h1>Hello, {name}!</h1>
+      <input
+        type="text"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+      />
+      <button onClick={() => setName('')}>Reset Name</button>
+    </div>
+  );
+}
+
+export default App;
+Explanation
+============
+i)useLocalStorage Hook:
+*) useState: Initializes the state with a function that tries to get the value from local storage.
+*) setValue function: Updates the state and local storage with the new value. It handles both direct values and functional updates.
+ii) App Component:
+*) Uses the useLocalStorage hook to manage the name state.
+*) Displays the name in a heading.
+*) Provides an input field to update the name.
+*) A button to reset the name to an empty string.
+This setup ensures that the name persists in the local storage even after the page is refreshed.
+
+8.2) UseFetch: Implement a custom hook for data fetching with loading and error states.
+simple implementation of a custom useFetch hook that you can use for data fetching, including handling loading and error states:
+// useFetch.js
+import { useState, useEffect } from 'react';
+
+const useFetch = (url) => {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(url);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const result = await response.json();
+        setData(result);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [url]);
+
+  return { data, loading, error };
+};
+
+export default useFetch;
+Example Usage
+You can use this custom useFetch hook in a functional component as shown below:
+// App.js
+import React from 'react';
+import useFetch from './useFetch';
+
+const App = () => {
+  const { data, loading, error } = useFetch('https://jsonplaceholder.typicode.com/posts');
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
+
+  return (
+    <div>
+      <h1>Posts</h1>
+      <ul>
+        {data.map(post => (
+          <li key={post.id}>
+            <h2>{post.title}</h2>
+            <p>{post.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+};
+
+export default App;
+Explanation
+============
+i)useFetch Hook:
+*) State Management: Uses useState to manage data, loading, and error states.
+*) Fetching Data: Uses useEffect to fetch data from the provided URL when the component mounts or when the URL changes.
+*) Error Handling: If the fetch request fails, the error is caught and stored in the error state.
+*) Loading State: The loading state is set to true when the fetch request starts and false when it completes.
+
+ii)Using the Hook in a Component:
+*) The useFetch hook is called with the URL of the data source.
+*) The returned data, loading, and error states are used to render the appropriate content.
+
+8.3) UseMediaQuery: Create a hook to manage media query breakpoints for responsive design.
+Media Query Breakpoints
+========================
+Media query breakpoints are specific points defined in CSS where the layout of a web page changes based on the screen size. They are used to create responsive designs that look good on various devices, such as mobile phones, tablets, and desktops. Common breakpoints are typically defined in terms of screen width, such as:
+Mobile: 0px to 767px
+Tablet: 768px to 1023px
+Desktop: 1024px and up
+
+Custom Hook: useMediaQuery
+Here's a simple custom hook for managing media query breakpoints:
+import { useState, useEffect } from 'react';
+
+function useMediaQuery(query) {
+  const [matches, setMatches] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia(query);
+    if (media.matches !== matches) {
+      setMatches(media.matches);
+    }
+    const listener = () => setMatches(media.matches);
+    media.addListener(listener);
+    return () => media.removeListener(listener);
+  }, [query, matches]);
+
+  return matches;
+}
+
+export default useMediaQuery;
+
+Here's an example of how you can use this custom hook in a component:
+import React from 'react';
+import useMediaQuery from './useMediaQuery';
+
+function ResponsiveComponent() {
+  const isMobile = useMediaQuery('(max-width: 767px)');
+  const isTablet = useMediaQuery('(min-width: 768px) and (max-width: 1023px)');
+  const isDesktop = useMediaQuery('(min-width: 1024px)');
+
+  return (
+    <div>
+      {isMobile && <p>Mobile view</p>}
+      {isTablet && <p>Tablet view</p>}
+      {isDesktop && <p>Desktop view</p>}
+    </div>
+  );
+}
+
+export default ResponsiveComponent;
+In this example, the useMediaQuery hook is used to check if the current screen width matches mobile, tablet, or desktop breakpoints, and conditionally renders different content based on the screen size.
+This custom hook helps keep your components clean and focused on rendering, while the logic for handling media queries is encapsulated within the hook.
+
+8.4) UsePrevious: Implement a custom hook to track and access previous prop or state values.
+Custom Hook: usePrevious
+import { useEffect, useRef } from 'react';
+
+function usePrevious(value) {
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
+}
+
+export default usePrevious;
+Example Usage of usePrevious
+Let's create a simple component that uses the usePrevious hook to track and display the previous state value.
+
+import React, { useState } from 'react';
+import usePrevious from './usePrevious';
+
+function ExampleComponent() {
+  const [count, setCount] = useState(0);
+  const previousCount = usePrevious(count);
+
+  return (
+    <div>
+      <h1>Current Count: {count}</h1>
+      <h2>Previous Count: {previousCount}</h2>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => setCount(count - 1)}>Decrement</button>
+    </div>
+  );
+}
+
+export default ExampleComponent;
+Explanation
+i) usePrevious Hook:
+*) useRef is used to store the previous value. useRef returns a mutable ref object whose .current property is initialized to the passed argument (undefined in this case).
+*) useEffect updates the ref with the current value after every render.
+*) The hook returns the previous value stored in the ref.
+ii) ExampleComponent:
+*) count is managed using the useState hook.
+*) usePrevious(count) returns the previous value of count before the most recent update.
+*) The component displays both the current and previous counts, and provides buttons to increment and decrement the count.
+
+8.5) UseForm: Create a custom hook to manage form state and handle input changes.
+useForm Custom Hook
+import { useState } from 'react';
+
+// Custom Hook
+function useForm(initialValues) {
+  const [values, setValues] = useState(initialValues);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setValues({
+      ...values,
+      [name]: value,
+    });
+  };
+
+  const resetForm = () => {
+    setValues(initialValues);
+  };
+
+  return {
+    values,
+    handleChange,
+    resetForm,
+  };
+}
+
+export default useForm;
+
+Example Usage of useForm
+import React from 'react';
+import useForm from './useForm';
+
+function MyForm() {
+  const { values, handleChange, resetForm } = useForm({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(values);
+    resetForm();
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Name:</label>
+        <input
+          type="text"
+          name="name"
+          value={values.name}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label>Email:</label>
+        <input
+          type="email"
+          name="email"
+          value={values.email}
+          onChange={handleChange}
+        />
+      </div>
+      <div>
+        <label>Password:</label>
+        <input
+          type="password"
+          name="password"
+          value={values.password}
+          onChange={handleChange}
+        />
+      </div>
+      <button type="submit">Submit</button>
+    </form>
+  );
+}
+
+export default MyForm;
+Explanation:
+==============
+i) useForm Hook:
+*) useForm takes initialValues as a parameter, which is an object representing the initial state of the form.
+*) values state holds the current form values.
+*) handleChange updates the specific field in the values state based on the name and value from the input element.
+*) resetForm resets the form to the initial values.
+ii) Using useForm in a Component:
+*) The useForm hook is called with the initial form values.
+*) values, handleChange, and resetForm are destructured from the hook.
+*) Each input field is linked to the corresponding value in the values state and updates the state using the handleChange function.
+*) handleSubmit handles form submission, logs the current form values, and resets the form.
